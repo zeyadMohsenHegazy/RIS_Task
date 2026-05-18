@@ -1,12 +1,11 @@
 using FluentValidation;
 using SmartInventorySystem.Application.DTOs.Products;
-using SmartInventorySystem.Application.Interfaces;
 
 namespace SmartInventorySystem.Application.Validators;
 
 public class UpdateProductValidator : AbstractValidator<UpdateProductDto>
 {
-    public UpdateProductValidator(IWarehouseRepository warehouseRepository)
+    public UpdateProductValidator()
     {
         RuleFor(x => x.Name)
             .NotEmpty()
@@ -23,9 +22,6 @@ public class UpdateProductValidator : AbstractValidator<UpdateProductDto>
             .GreaterThanOrEqualTo(0);
 
         RuleFor(x => x.WarehouseId)
-            .GreaterThan(0)
-            .MustAsync(async (warehouseId, cancellation) =>
-                await warehouseRepository.GetByIdAsync(warehouseId, cancellation) is not null)
-            .WithMessage("Warehouse does not exist.");
+            .GreaterThan(0);
     }
 }

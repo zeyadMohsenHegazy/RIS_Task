@@ -12,13 +12,18 @@ namespace SmartInventorySystem.Tests.Services;
 public class ProductServiceTests
 {
     private readonly Mock<IProductRepository> _productRepositoryMock = new();
+    private readonly Mock<IWarehouseRepository> _warehouseRepositoryMock = new();
     private readonly Mock<ICacheService> _cacheServiceMock = new();
     private readonly ProductService _sut;
 
     public ProductServiceTests()
     {
         SetupCachePassthrough();
-        _sut = new ProductService(_productRepositoryMock.Object, _cacheServiceMock.Object);
+        SetupWarehouseExists();
+        _sut = new ProductService(
+            _productRepositoryMock.Object,
+            _warehouseRepositoryMock.Object,
+            _cacheServiceMock.Object);
     }
 
     [Fact]
@@ -77,6 +82,10 @@ public class ProductServiceTests
             Quantity = 25,
             WarehouseId = 1
         };
+
+        _productRepositoryMock
+            .Setup(r => r.GetBySkuAsync(dto.SKU, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((Product?)null);
 
         _productRepositoryMock
             .Setup(r => r.AddAsync(It.IsAny<Product>(), It.IsAny<CancellationToken>()))
@@ -191,6 +200,13 @@ public class ProductServiceTests
         result.Should().BeTrue();
         _productRepositoryMock.Verify(r => r.Delete(product), Times.Once);
         _cacheServiceMock.Verify(c => c.InvalidateProducts(), Times.Once);
+    }
+
+    private void SetupWarehouseExists()
+    {
+        _warehouseRepositoryMock
+            .Setup(r => r.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Warehouse("Main", "Cairo"));
     }
 
     private void SetupCachePassthrough()

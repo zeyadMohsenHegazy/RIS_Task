@@ -1,19 +1,15 @@
 using FluentValidation;
 using SmartInventorySystem.Application.DTOs.Warehouses;
-using SmartInventorySystem.Application.Interfaces;
 
 namespace SmartInventorySystem.Application.Validators;
 
 public class CreateWarehouseValidator : AbstractValidator<CreateWarehouseDto>
 {
-    public CreateWarehouseValidator(IWarehouseRepository warehouseRepository)
+    public CreateWarehouseValidator()
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .MaximumLength(200)
-            .MustAsync(async (name, cancellation) =>
-                !await warehouseRepository.ExistsByNameAsync(name, cancellation))
-            .WithMessage("A warehouse with this name already exists.");
+            .MaximumLength(200);
 
         RuleFor(x => x.Location)
             .NotEmpty()

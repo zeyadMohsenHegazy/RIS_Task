@@ -29,8 +29,8 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseRouting();
 app.UseCorsPolicy();
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

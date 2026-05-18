@@ -8,11 +8,16 @@ namespace SmartInventorySystem.Application.Services;
 public class ProductService : IProductService
 {
     private readonly IProductRepository _productRepository;
+    private readonly IWarehouseRepository _warehouseRepository;
     private readonly ICacheService _cacheService;
 
-    public ProductService(IProductRepository productRepository, ICacheService cacheService)
+    public ProductService(
+        IProductRepository productRepository,
+        IWarehouseRepository warehouseRepository,
+        ICacheService cacheService)
     {
         _productRepository = productRepository;
+        _warehouseRepository = warehouseRepository;
         _cacheService = cacheService;
     }
 
@@ -52,6 +57,16 @@ public class ProductService : IProductService
 
     public async Task<ProductDto> CreateAsync(CreateProductDto dto, CancellationToken cancellationToken = default)
     {
+        if (await _productRepository.GetBySkuAsync(dto.SKU, cancellationToken) is not null)
+        {
+            throw new InvalidOperationException("SKU must be unique.");
+        }
+
+        if (await _warehouseRepository.GetByIdAsync(dto.WarehouseId, cancellationToken) is null)
+        {
+            throw new InvalidOperationException("Warehouse does not exist.");
+        }
+
         var product = ProductMapper.ToEntity(dto);
         await _productRepository.AddAsync(product, cancellationToken);
         await _productRepository.SaveChangesAsync(cancellationToken);
@@ -78,6 +93,11 @@ public class ProductService : IProductService
         if (duplicateSku is not null && duplicateSku.Id != id)
         {
             throw new InvalidOperationException("SKU must be unique.");
+        }
+
+        if (await _warehouseRepository.GetByIdAsync(dto.WarehouseId, cancellationToken) is null)
+        {
+            throw new InvalidOperationException("Warehouse does not exist.");
         }
 
         ProductMapper.ApplyUpdate(product, dto);

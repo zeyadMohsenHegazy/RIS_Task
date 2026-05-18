@@ -36,6 +36,11 @@ public class WarehouseService : IWarehouseService
         CreateWarehouseDto dto,
         CancellationToken cancellationToken = default)
     {
+        if (await _warehouseRepository.ExistsByNameAsync(dto.Name, cancellationToken))
+        {
+            throw new InvalidOperationException("A warehouse with this name already exists.");
+        }
+
         var warehouse = WarehouseMapper.ToEntity(dto);
         await _warehouseRepository.AddAsync(warehouse, cancellationToken);
         await _warehouseRepository.SaveChangesAsync(cancellationToken);
