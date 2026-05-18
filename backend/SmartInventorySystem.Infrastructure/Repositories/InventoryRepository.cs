@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using SmartInventorySystem.Application.Common;
 using SmartInventorySystem.Application.Interfaces;
 using SmartInventorySystem.Domain.Entities;
+using SmartInventorySystem.Infrastructure.Extensions;
 using SmartInventorySystem.Infrastructure.Persistence;
 
 namespace SmartInventorySystem.Infrastructure.Repositories;
@@ -12,16 +14,27 @@ public class InventoryRepository : GenericRepository<InventoryTransaction>, IInv
     {
     }
 
-    public async Task<IReadOnlyList<InventoryTransaction>> GetHistoryAsync(
+    public async Task<PagedResult<InventoryTransaction>> GetHistoryPagedAsync(
+        int pageNumber,
+        int pageSize,
+        string? search,
         CancellationToken cancellationToken = default)
     {
-        return await DbSet
+        IQueryable<InventoryTransaction> query = DbSet
             .AsNoTracking()
             .Include(t => t.Product)
-            .Include(t => t.CreatedByUser)
+            .Include(t => t.CreatedByUser);
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            query = query.Where(t => t.Product != null && t.Product.Name.Contains(search));
+        }
+
+        query = query
             .OrderByDescending(t => t.TransactionDate)
-            .ThenByDescending(t => t.Id)
-            .ToListAsync(cancellationToken);
+            .ThenByDescending(t => t.Id);
+
+        return await query.ToPagedResultAsync(pageNumber, pageSize, cancellationToken);
     }
 
     public async Task<InventoryTransaction?> GetByIdWithDetailsAsync(

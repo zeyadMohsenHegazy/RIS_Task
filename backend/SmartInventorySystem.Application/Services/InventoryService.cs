@@ -1,3 +1,4 @@
+using SmartInventorySystem.Application.DTOs.Common;
 using SmartInventorySystem.Application.DTOs.Inventory;
 using SmartInventorySystem.Application.Interfaces;
 using SmartInventorySystem.Application.Mappings;
@@ -36,11 +37,20 @@ public class InventoryService : IInventoryService
         return ProcessMovementAsync(dto, TransactionType.Out, cancellationToken);
     }
 
-    public async Task<IReadOnlyList<InventoryTransactionDto>> GetHistoryAsync(
+    public async Task<PagedResponse<InventoryTransactionDto>> GetHistoryAsync(
+        PaginationQuery query,
         CancellationToken cancellationToken = default)
     {
-        var transactions = await _inventoryRepository.GetHistoryAsync(cancellationToken);
-        return InventoryMapper.ToDtoList(transactions);
+        var (pageNumber, pageSize) = query.Normalize();
+        var search = query.NormalizedSearch();
+
+        var result = await _inventoryRepository.GetHistoryPagedAsync(
+            pageNumber,
+            pageSize,
+            search,
+            cancellationToken);
+
+        return PagedMapper.ToPagedResponse(result, InventoryMapper.ToDto);
     }
 
     private async Task<InventoryTransactionDto> ProcessMovementAsync(

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartInventorySystem.API.Extensions;
+using SmartInventorySystem.Application.DTOs.Common;
 using SmartInventorySystem.Application.DTOs.Inventory;
 using SmartInventorySystem.Application.Interfaces;
 
@@ -50,15 +51,18 @@ public class InventoryController : ControllerBase
             () => _inventoryService.StockOutAsync(dto, cancellationToken));
     }
 
-    /// <summary>Gets inventory transaction history. Admin and Employee.</summary>
+    /// <summary>Gets inventory transaction history with pagination. Search filters by product name.</summary>
+    /// <param name="query">pageNumber=1, pageSize=10, search=laptop</param>
     [HttpGet("history")]
     [Authorize(Policy = AuthenticationExtensions.AdminOrEmployeePolicy)]
-    [ProducesResponseType(typeof(IReadOnlyList<InventoryTransactionDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PagedResponse<InventoryTransactionDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<IReadOnlyList<InventoryTransactionDto>>> GetHistory(
+    public async Task<ActionResult<PagedResponse<InventoryTransactionDto>>> GetHistory(
+        [FromQuery] PaginationQuery query,
         CancellationToken cancellationToken)
     {
-        var history = await _inventoryService.GetHistoryAsync(cancellationToken);
+        var history = await _inventoryService.GetHistoryAsync(query, cancellationToken);
         return Ok(history);
     }
 

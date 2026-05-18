@@ -1,6 +1,7 @@
 using System.Reflection;
 using Microsoft.OpenApi.Models;
 using SmartInventorySystem.API.Services;
+using SmartInventorySystem.API.Swagger;
 using SmartInventorySystem.Application.Interfaces;
 
 namespace SmartInventorySystem.API.Extensions;
@@ -54,6 +55,8 @@ public static class ServiceCollectionExtensions
                     Array.Empty<string>()
                 }
             });
+
+            options.OperationFilter<PaginationOperationFilter>();
         });
 
         return services;

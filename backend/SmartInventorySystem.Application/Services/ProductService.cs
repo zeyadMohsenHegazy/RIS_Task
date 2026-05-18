@@ -1,3 +1,4 @@
+using SmartInventorySystem.Application.DTOs.Common;
 using SmartInventorySystem.Application.DTOs.Products;
 using SmartInventorySystem.Application.Interfaces;
 using SmartInventorySystem.Application.Mappings;
@@ -13,10 +14,20 @@ public class ProductService : IProductService
         _productRepository = productRepository;
     }
 
-    public async Task<IReadOnlyList<ProductDto>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<PagedResponse<ProductDto>> GetPagedAsync(
+        PaginationQuery query,
+        CancellationToken cancellationToken = default)
     {
-        var products = await _productRepository.GetAllWithWarehouseAsync(cancellationToken);
-        return ProductMapper.ToDtoList(products);
+        var (pageNumber, pageSize) = query.Normalize();
+        var search = query.NormalizedSearch();
+
+        var result = await _productRepository.GetPagedWithWarehouseAsync(
+            pageNumber,
+            pageSize,
+            search,
+            cancellationToken);
+
+        return PagedMapper.ToPagedResponse(result, ProductMapper.ToDto);
     }
 
     public async Task<ProductDto?> GetByIdAsync(int id, CancellationToken cancellationToken = default)

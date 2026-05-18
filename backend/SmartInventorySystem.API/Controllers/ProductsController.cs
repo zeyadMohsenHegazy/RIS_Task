@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartInventorySystem.API.Extensions;
+using SmartInventorySystem.Application.DTOs.Common;
 using SmartInventorySystem.Application.DTOs.Products;
 using SmartInventorySystem.Application.Interfaces;
 
@@ -19,13 +20,17 @@ public class ProductsController : ControllerBase
         _productService = productService;
     }
 
-    /// <summary>Gets all products.</summary>
+    /// <summary>Gets products with pagination and optional search by name.</summary>
+    /// <param name="query">pageNumber=1, pageSize=10, search=laptop</param>
     [HttpGet]
-    [ProducesResponseType(typeof(IReadOnlyList<ProductDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PagedResponse<ProductDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<IReadOnlyList<ProductDto>>> GetAll(CancellationToken cancellationToken)
+    public async Task<ActionResult<PagedResponse<ProductDto>>> GetAll(
+        [FromQuery] PaginationQuery query,
+        CancellationToken cancellationToken)
     {
-        var products = await _productService.GetAllAsync(cancellationToken);
+        var products = await _productService.GetPagedAsync(query, cancellationToken);
         return Ok(products);
     }
 

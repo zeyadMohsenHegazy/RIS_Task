@@ -1,3 +1,4 @@
+using SmartInventorySystem.Application.DTOs.Common;
 using SmartInventorySystem.Application.DTOs.Inventory;
 
 namespace SmartInventorySystem.Application.Interfaces;
@@ -12,6 +13,7 @@ public interface IInventoryService
         InventoryMovementDto dto,
         CancellationToken cancellationToken = default);
 
-    Task<IReadOnlyList<InventoryTransactionDto>> GetHistoryAsync(
+    Task<PagedResponse<InventoryTransactionDto>> GetHistoryAsync(
+        PaginationQuery query,
         CancellationToken cancellationToken = default);
 }
