@@ -8,6 +8,7 @@ using SmartInventorySystem.Infrastructure.Persistence;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApiServices();
+builder.Services.AddCorsPolicy(builder.Configuration);
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -28,6 +29,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseCorsPolicy();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
