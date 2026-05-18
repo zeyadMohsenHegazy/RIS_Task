@@ -1,0 +1,7 @@
+$sim-font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+
+@mixin sim-typography-base {
+  font-family: $sim-font-family;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

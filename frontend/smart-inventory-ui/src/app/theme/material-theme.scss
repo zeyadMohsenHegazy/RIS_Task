@@ -1,0 +1,65 @@
+@use '@angular/material' as mat;
+@use './palette' as palette;
+@use './typography' as typography;
+
+@include mat.core();
+
+$sim-light-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: (
+      plain-family: typography.$sim-font-family,
+      brand-family: typography.$sim-font-family,
+    ),
+    density: (
+      scale: 0,
+    ),
+  )
+);
+
+$sim-dark-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: (
+      plain-family: typography.$sim-font-family,
+      brand-family: typography.$sim-font-family,
+    ),
+    density: (
+      scale: 0,
+    ),
+  )
+);
+
+@mixin apply-light-theme {
+  color-scheme: light;
+  background-color: palette.$sim-surface-light;
+  color: palette.$sim-text-on-light;
+  @include mat.all-component-themes($sim-light-theme);
+}
+
+@mixin apply-dark-theme {
+  color-scheme: dark;
+  background-color: palette.$sim-surface-dark;
+  color: palette.$sim-text-on-dark;
+  @include mat.all-component-themes($sim-dark-theme);
+}
+
+html {
+  @include typography.sim-typography-base;
+}
+
+html.light-theme {
+  @include apply-light-theme;
+}
+
+html.dark-theme {
+  @include apply-dark-theme;
+}

@@ -1,0 +1,16 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ isEditMode ? 'Edit Product' : 'Add Product' }}</mat-card-title>
+    <mat-card-subtitle>Product form placeholder</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    @if (isEditMode) {
+      <p>Editing product ID: {{ productId }}</p>
+    } @else {
+      <p>Create a new product — form fields will be implemented here.</p>
+    }
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <a mat-button routerLink="/products">Back to Products</a>
+  </mat-card-actions>
+</mat-card>
