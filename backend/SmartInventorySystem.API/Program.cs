@@ -12,6 +12,8 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
+app.UseGlobalExceptionHandler();
+
 await SeedDatabaseAsync(app);
 
 if (app.Environment.IsDevelopment())
