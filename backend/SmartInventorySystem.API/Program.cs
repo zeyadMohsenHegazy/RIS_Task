@@ -45,6 +45,18 @@ static async Task ApplyMigrationsAsync(WebApplication app)
 static async Task SeedDatabaseAsync(WebApplication app)
 {
     using var scope = app.Services.CreateScope();
+    var logger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>()
+        .CreateLogger("DatabaseInitialization");
     var seeder = scope.ServiceProvider.GetRequiredService<IDatabaseSeeder>();
-    await seeder.SeedAsync();
+
+    try
+    {
+        await seeder.SeedAsync();
+        logger.LogInformation("Database initialization (migrations + seed) finished.");
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Database seeding failed.");
+        throw;
+    }
 }
