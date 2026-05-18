@@ -22,6 +22,7 @@ public class ProductsController : ControllerBase
 
     /// <summary>Gets products with pagination and optional search by name.</summary>
     /// <param name="query">pageNumber=1, pageSize=10, search=laptop</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
     [HttpGet]
     [ProducesResponseType(typeof(PagedResponse<ProductDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

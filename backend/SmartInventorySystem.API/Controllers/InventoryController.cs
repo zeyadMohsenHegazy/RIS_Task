@@ -53,6 +53,7 @@ public class InventoryController : ControllerBase
 
     /// <summary>Gets inventory transaction history with pagination. Search filters by product name.</summary>
     /// <param name="query">pageNumber=1, pageSize=10, search=laptop</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
     [HttpGet("history")]
     [Authorize(Policy = AuthenticationExtensions.AdminOrEmployeePolicy)]
     [ProducesResponseType(typeof(PagedResponse<InventoryTransactionDto>), StatusCodes.Status200OK)]
