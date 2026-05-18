@@ -14,6 +14,7 @@ public static class DependencyInjection
         services.AddValidatorsFromAssemblyContaining(typeof(DependencyInjection));
 
         services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<IWarehouseService, WarehouseService>();
 
         return services;
     }
