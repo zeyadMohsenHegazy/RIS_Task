@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInventorySystem.Domain
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInventorySystem.Infrastructure", "SmartInventorySystem.Infrastructure\SmartInventorySystem.Infrastructure.csproj", "{2B6FDD2C-5CE2-4956-A921-3757742C3101}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartInventorySystem.Tests", "SmartInventorySystem.Tests\SmartInventorySystem.Tests.csproj", "{7070184C-92DA-4A87-84CD-C1EC1C1D692E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,18 @@ Global
 		{2B6FDD2C-5CE2-4956-A921-3757742C3101}.Release|x64.Build.0 = Release|Any CPU
 		{2B6FDD2C-5CE2-4956-A921-3757742C3101}.Release|x86.ActiveCfg = Release|Any CPU
 		{2B6FDD2C-5CE2-4956-A921-3757742C3101}.Release|x86.Build.0 = Release|Any CPU
+		{7070184C-92DA-4A87-84CD-C1EC1C1D692E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7070184C-92DA-4A87-84CD-C1EC1C1D692E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7070184C-92DA-4A87-84CD-C1EC1C1D692E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7070184C-92DA-4A87-84CD-C1EC1C1D692E}.Debug|x64.Build.0 = Debug|Any CPU
+		{7070184C-92DA-4A87-84CD-C1EC1C1D692E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7070184C-92DA-4A87-84CD-C1EC1C1D692E}.Debug|x86.Build.0 = Debug|Any CPU
+		{7070184C-92DA-4A87-84CD-C1EC1C1D692E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7070184C-92DA-4A87-84CD-C1EC1C1D692E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7070184C-92DA-4A87-84CD-C1EC1C1D692E}.Release|x64.ActiveCfg = Release|Any CPU
+		{7070184C-92DA-4A87-84CD-C1EC1C1D692E}.Release|x64.Build.0 = Release|Any CPU
+		{7070184C-92DA-4A87-84CD-C1EC1C1D692E}.Release|x86.ActiveCfg = Release|Any CPU
+		{7070184C-92DA-4A87-84CD-C1EC1C1D692E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

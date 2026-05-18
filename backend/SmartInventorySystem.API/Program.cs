@@ -1,7 +1,9 @@
+using Microsoft.EntityFrameworkCore;
 using SmartInventorySystem.API.Extensions;
 using SmartInventorySystem.Application;
 using SmartInventorySystem.Application.Interfaces;
 using SmartInventorySystem.Infrastructure;
+using SmartInventorySystem.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,7 @@ var app = builder.Build();
 
 app.UseGlobalExceptionHandler();
 
+await ApplyMigrationsAsync(app);
 await SeedDatabaseAsync(app);
 
 if (app.Environment.IsDevelopment())
@@ -31,6 +34,13 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+static async Task ApplyMigrationsAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await context.Database.MigrateAsync();
+}
 
 static async Task SeedDatabaseAsync(WebApplication app)
 {
