@@ -41,7 +41,7 @@ public class InventoryService : IInventoryService
     }
 
     public async Task<PagedResponse<InventoryTransactionDto>> GetHistoryAsync(
-        PaginationQuery query,
+        InventoryHistoryQuery query,
         CancellationToken cancellationToken = default)
     {
         var (pageNumber, pageSize) = query.Normalize();
@@ -51,6 +51,7 @@ public class InventoryService : IInventoryService
             pageNumber,
             pageSize,
             search,
+            query.TransactionType,
             cancellationToken);
 
         return PagedMapper.ToPagedResponse(result, InventoryMapper.ToDto);

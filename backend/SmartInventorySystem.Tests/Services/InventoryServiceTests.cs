@@ -127,10 +127,10 @@ public class InventoryServiceTests
         var paged = new PagedResult<InventoryTransaction>(transactions, 1, 10, 2);
 
         _inventoryRepositoryMock
-            .Setup(r => r.GetHistoryPagedAsync(1, 10, null, It.IsAny<CancellationToken>()))
+            .Setup(r => r.GetHistoryPagedAsync(1, 10, null, null, It.IsAny<CancellationToken>()))
             .ReturnsAsync(paged);
 
-        var result = await _sut.GetHistoryAsync(new PaginationQuery { PageNumber = 1, PageSize = 10 });
+        var result = await _sut.GetHistoryAsync(new InventoryHistoryQuery { PageNumber = 1, PageSize = 10 });
 
         result.Items.Should().HaveCount(2);
         result.TotalCount.Should().Be(2);

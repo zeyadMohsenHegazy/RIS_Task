@@ -52,7 +52,7 @@ public class InventoryController : ControllerBase
     }
 
     /// <summary>Gets inventory transaction history with pagination. Search filters by product name.</summary>
-    /// <param name="query">pageNumber=1, pageSize=10, search=laptop</param>
+    /// <param name="query">pageNumber=1, pageSize=10, search=laptop, transactionType=1 (In) or 2 (Out)</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     [HttpGet("history")]
     [Authorize(Policy = AuthenticationExtensions.AdminOrEmployeePolicy)]
@@ -60,7 +60,7 @@ public class InventoryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<PagedResponse<InventoryTransactionDto>>> GetHistory(
-        [FromQuery] PaginationQuery query,
+        [FromQuery] InventoryHistoryQuery query,
         CancellationToken cancellationToken)
     {
         var history = await _inventoryService.GetHistoryAsync(query, cancellationToken);

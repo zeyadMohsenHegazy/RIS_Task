@@ -14,6 +14,6 @@ public interface IInventoryService
         CancellationToken cancellationToken = default);
 
     Task<PagedResponse<InventoryTransactionDto>> GetHistoryAsync(
-        PaginationQuery query,
+        InventoryHistoryQuery query,
         CancellationToken cancellationToken = default);
 }

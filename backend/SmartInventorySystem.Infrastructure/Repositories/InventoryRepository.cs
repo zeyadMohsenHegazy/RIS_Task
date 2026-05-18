@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SmartInventorySystem.Application.Common;
 using SmartInventorySystem.Application.Interfaces;
 using SmartInventorySystem.Domain.Entities;
+using SmartInventorySystem.Domain.Enums;
 using SmartInventorySystem.Infrastructure.Extensions;
 using SmartInventorySystem.Infrastructure.Persistence;
 
@@ -18,6 +19,7 @@ public class InventoryRepository : GenericRepository<InventoryTransaction>, IInv
         int pageNumber,
         int pageSize,
         string? search,
+        TransactionType? transactionType = null,
         CancellationToken cancellationToken = default)
     {
         IQueryable<InventoryTransaction> query = DbSet
@@ -28,6 +30,11 @@ public class InventoryRepository : GenericRepository<InventoryTransaction>, IInv
         if (!string.IsNullOrWhiteSpace(search))
         {
             query = query.Where(t => t.Product != null && t.Product.Name.Contains(search));
+        }
+
+        if (transactionType.HasValue)
+        {
+            query = query.Where(t => t.TransactionType == transactionType.Value);
         }
 
         query = query
