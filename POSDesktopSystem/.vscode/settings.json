@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    ".dockerignore": "ignore"
+  },
+  "cSpell.ignorePaths": [".dockerignore"]
+}

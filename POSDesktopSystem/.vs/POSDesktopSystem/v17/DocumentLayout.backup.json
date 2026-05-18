@@ -1,0 +1,177 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{54E559DA-CC56-44C7-ADFB-2A3D69F37C98}|src\\POS.UI\\POS.UI.csproj|c:\\users\\lenovo\\desktop\\smart inventory management system\\posdesktopsystem\\src\\pos.ui\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{54E559DA-CC56-44C7-ADFB-2A3D69F37C98}|src\\POS.UI\\POS.UI.csproj|solutionrelative:src\\pos.ui\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{197BBC60-E622-422A-B0EB-415D5B559192}|src\\POS.Infrastructure\\POS.Infrastructure.csproj|c:\\users\\lenovo\\desktop\\smart inventory management system\\posdesktopsystem\\src\\pos.infrastructure\\dependencyinjection\\servicecollectionextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{197BBC60-E622-422A-B0EB-415D5B559192}|src\\POS.Infrastructure\\POS.Infrastructure.csproj|solutionrelative:src\\pos.infrastructure\\dependencyinjection\\servicecollectionextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{54E559DA-CC56-44C7-ADFB-2A3D69F37C98}|src\\POS.UI\\POS.UI.csproj|c:\\users\\lenovo\\desktop\\smart inventory management system\\posdesktopsystem\\src\\pos.ui\\dependencyinjection\\compositionroot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{54E559DA-CC56-44C7-ADFB-2A3D69F37C98}|src\\POS.UI\\POS.UI.csproj|solutionrelative:src\\pos.ui\\dependencyinjection\\compositionroot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{85E5B3AE-CE43-4966-AA73-17E2F271DA53}|src\\POS.Application\\POS.Application.csproj|c:\\users\\lenovo\\desktop\\smart inventory management system\\posdesktopsystem\\src\\pos.application\\services\\rolepermissions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85E5B3AE-CE43-4966-AA73-17E2F271DA53}|src\\POS.Application\\POS.Application.csproj|solutionrelative:src\\pos.application\\services\\rolepermissions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{197BBC60-E622-422A-B0EB-415D5B559192}|src\\POS.Infrastructure\\POS.Infrastructure.csproj|c:\\users\\lenovo\\desktop\\smart inventory management system\\posdesktopsystem\\src\\pos.infrastructure\\repositories\\invoicerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{197BBC60-E622-422A-B0EB-415D5B559192}|src\\POS.Infrastructure\\POS.Infrastructure.csproj|solutionrelative:src\\pos.infrastructure\\repositories\\invoicerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{85E5B3AE-CE43-4966-AA73-17E2F271DA53}|src\\POS.Application\\POS.Application.csproj|c:\\users\\lenovo\\desktop\\smart inventory management system\\posdesktopsystem\\src\\pos.application\\interfaces\\iinvoicerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85E5B3AE-CE43-4966-AA73-17E2F271DA53}|src\\POS.Application\\POS.Application.csproj|solutionrelative:src\\pos.application\\interfaces\\iinvoicerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{85E5B3AE-CE43-4966-AA73-17E2F271DA53}|src\\POS.Application\\POS.Application.csproj|c:\\users\\lenovo\\desktop\\smart inventory management system\\posdesktopsystem\\src\\pos.application\\services\\posservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85E5B3AE-CE43-4966-AA73-17E2F271DA53}|src\\POS.Application\\POS.Application.csproj|solutionrelative:src\\pos.application\\services\\posservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{197BBC60-E622-422A-B0EB-415D5B559192}|src\\POS.Infrastructure\\POS.Infrastructure.csproj|c:\\users\\lenovo\\desktop\\smart inventory management system\\posdesktopsystem\\src\\pos.infrastructure\\bootstrap\\applicationbootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{197BBC60-E622-422A-B0EB-415D5B559192}|src\\POS.Infrastructure\\POS.Infrastructure.csproj|solutionrelative:src\\pos.infrastructure\\bootstrap\\applicationbootstrap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{197BBC60-E622-422A-B0EB-415D5B559192}|src\\POS.Infrastructure\\POS.Infrastructure.csproj|c:\\users\\lenovo\\desktop\\smart inventory management system\\posdesktopsystem\\src\\pos.infrastructure\\bootstrap\\systemstatusprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{197BBC60-E622-422A-B0EB-415D5B559192}|src\\POS.Infrastructure\\POS.Infrastructure.csproj|solutionrelative:src\\pos.infrastructure\\bootstrap\\systemstatusprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LoginForm.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.UI\\Forms\\LoginForm.cs",
+              "RelativeDocumentMoniker": "src\\POS.UI\\Forms\\LoginForm.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.UI\\Forms\\LoginForm.cs",
+              "RelativeToolTip": "src\\POS.UI\\Forms\\LoginForm.cs",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAgwEUAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T19:48:39.883Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ServiceCollectionExtensions.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Infrastructure\\DependencyInjection\\ServiceCollectionExtensions.cs",
+              "RelativeDocumentMoniker": "src\\POS.Infrastructure\\DependencyInjection\\ServiceCollectionExtensions.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Infrastructure\\DependencyInjection\\ServiceCollectionExtensions.cs",
+              "RelativeToolTip": "src\\POS.Infrastructure\\DependencyInjection\\ServiceCollectionExtensions.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAowB4AAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T19:48:32.317Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CompositionRoot.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.UI\\DependencyInjection\\CompositionRoot.cs",
+              "RelativeDocumentMoniker": "src\\POS.UI\\DependencyInjection\\CompositionRoot.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.UI\\DependencyInjection\\CompositionRoot.cs",
+              "RelativeToolTip": "src\\POS.UI\\DependencyInjection\\CompositionRoot.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T19:48:30.774Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RolePermissions.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Application\\Services\\RolePermissions.cs",
+              "RelativeDocumentMoniker": "src\\POS.Application\\Services\\RolePermissions.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Application\\Services\\RolePermissions.cs",
+              "RelativeToolTip": "src\\POS.Application\\Services\\RolePermissions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T19:47:35.02Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "PosService.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Application\\Services\\PosService.cs",
+              "RelativeDocumentMoniker": "src\\POS.Application\\Services\\PosService.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Application\\Services\\PosService.cs",
+              "RelativeToolTip": "src\\POS.Application\\Services\\PosService.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T19:47:19.787Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ApplicationBootstrap.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Infrastructure\\Bootstrap\\ApplicationBootstrap.cs",
+              "RelativeDocumentMoniker": "src\\POS.Infrastructure\\Bootstrap\\ApplicationBootstrap.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Infrastructure\\Bootstrap\\ApplicationBootstrap.cs",
+              "RelativeToolTip": "src\\POS.Infrastructure\\Bootstrap\\ApplicationBootstrap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T19:47:05.101Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IInvoiceRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Application\\Interfaces\\IInvoiceRepository.cs",
+              "RelativeDocumentMoniker": "src\\POS.Application\\Interfaces\\IInvoiceRepository.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Application\\Interfaces\\IInvoiceRepository.cs",
+              "RelativeToolTip": "src\\POS.Application\\Interfaces\\IInvoiceRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T19:47:00.588Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "InvoiceRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Infrastructure\\Repositories\\InvoiceRepository.cs",
+              "RelativeDocumentMoniker": "src\\POS.Infrastructure\\Repositories\\InvoiceRepository.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Infrastructure\\Repositories\\InvoiceRepository.cs",
+              "RelativeToolTip": "src\\POS.Infrastructure\\Repositories\\InvoiceRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAoAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T19:46:58.004Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "SystemStatusProvider.cs",
+              "DocumentMoniker": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Infrastructure\\Bootstrap\\SystemStatusProvider.cs",
+              "RelativeDocumentMoniker": "src\\POS.Infrastructure\\Bootstrap\\SystemStatusProvider.cs",
+              "ToolTip": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Infrastructure\\Bootstrap\\SystemStatusProvider.cs",
+              "RelativeToolTip": "src\\POS.Infrastructure\\Bootstrap\\SystemStatusProvider.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T19:46:49.64Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

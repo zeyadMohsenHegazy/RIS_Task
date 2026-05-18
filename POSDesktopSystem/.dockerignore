@@ -1,0 +1,11 @@
+# spellchecker:disable
+**/.git
+**/.vs*
+**/bin
+**/obj
+**/*.user
+**/*.suo
+**/Logs
+**/Data/*.db
+**/.env
+**/terminals
