@@ -1,6 +1,8 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
+using SmartInventorySystem.Application.Interfaces;
+using SmartInventorySystem.Application.Services;
 
 namespace SmartInventorySystem.Application;
 
@@ -10,6 +12,8 @@ public static class DependencyInjection
     {
         services.AddFluentValidationAutoValidation();
         services.AddValidatorsFromAssemblyContaining(typeof(DependencyInjection));
+
+        services.AddScoped<IProductService, ProductService>();
 
         return services;
     }
