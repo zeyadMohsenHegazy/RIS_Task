@@ -3,35 +3,43 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { PageEvent } from '@angular/material/paginator';
+import { filter, switchMap, tap } from 'rxjs';
 import { NotificationService } from '../../core/notifications/notification.service';
-import { debounceTime, distinctUntilChanged, filter, switchMap, tap } from 'rxjs';
 import { AuthService } from '../../features/auth/auth.service';
-import { InventoryMovementDialogService } from '../../features/inventory/inventory-movement-dialog.service';
+import { InventoryStockActions } from '../../features/inventory/inventory-stock.actions';
 import { ProductsService } from '../../features/products/products.service';
 import { ProductsStore } from '../../features/products/products.store';
 import { TransactionType } from '../../models/inventory.model';
 import { ProductDto } from '../../models/product.model';
-import { ConfirmDialogService, ErrorState, TableSkeleton } from '../../shared';
+import {
+  ConfirmDialogService,
+  ErrorState,
+  formatCurrency,
+  PageHeader,
+  PaginatedTableShell,
+  PAGE_SIZE_OPTIONS,
+  SearchField,
+  StockActionButtons,
+  bindDebouncedSearch,
+} from '../../shared';
 
 @Component({
   selector: 'app-products-list-page',
   imports: [
     ReactiveFormsModule,
     MatTableModule,
-    MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatTooltipModule,
+    PageHeader,
+    SearchField,
+    StockActionButtons,
+    PaginatedTableShell,
     ErrorState,
-    TableSkeleton,
   ],
   templateUrl: './products-list.page.html',
   styleUrl: './products-list.page.scss',
@@ -39,7 +47,7 @@ import { ConfirmDialogService, ErrorState, TableSkeleton } from '../../shared';
 export class ProductsListPage implements OnInit {
   private readonly productsStore = inject(ProductsStore);
   private readonly productsService = inject(ProductsService);
-  private readonly inventoryDialog = inject(InventoryMovementDialogService);
+  private readonly stockActions = inject(InventoryStockActions);
   private readonly confirmDialog = inject(ConfirmDialogService);
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
@@ -47,30 +55,29 @@ export class ProductsListPage implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   readonly searchControl = new FormControl('', { nonNullable: true });
-
   readonly products = this.productsStore.products;
   readonly totalCount = this.productsStore.totalCount;
   readonly loading = this.productsStore.listLoading;
   readonly error = this.productsStore.listError;
   readonly isAdmin = this.auth.isAdmin;
 
-  readonly pageIndex = computed(
-    () => this.productsStore.listQuery().pageNumber - 1,
-  );
+  readonly pageIndex = computed(() => this.productsStore.listQuery().pageNumber - 1);
   readonly pageSize = computed(() => this.productsStore.listQuery().pageSize);
-
   readonly displayedColumns = computed(() => {
-    const base = ['name', 'sku', 'price', 'quantity', 'warehouseName'];
-    return this.isAdmin() ? [...base, 'actions'] : base;
+    const base = ['name', 'sku', 'price', 'quantity', 'warehouseName'] as const;
+    return this.isAdmin() ? [...base, 'actions'] : [...base];
   });
 
-  readonly pageSizeOptions = [5, 10, 25, 50];
+  readonly pageSizeOptions = PAGE_SIZE_OPTIONS;
+  readonly formatPrice = formatCurrency;
 
   ngOnInit(): void {
     this.searchControl.setValue(this.productsStore.listQuery().search, {
       emitEvent: false,
     });
-    this.setupSearch();
+    bindDebouncedSearch(this.searchControl, this.destroyRef, (search) => {
+      this.productsStore.setListQuery({ pageNumber: 1, search });
+    });
     this.productsStore.loadList();
   }
 
@@ -90,21 +97,11 @@ export class ProductsListPage implements OnInit {
   }
 
   onStockIn(product?: ProductDto): void {
-    this.openInventoryDialog(TransactionType.In, product);
+    this.stockActions.open(TransactionType.In, this.destroyRef, { product });
   }
 
   onStockOut(product?: ProductDto): void {
-    this.openInventoryDialog(TransactionType.Out, product);
-  }
-
-  private openInventoryDialog(type: TransactionType, product?: ProductDto): void {
-    this.inventoryDialog
-      .open({
-        transactionType: type,
-        productId: product?.id,
-      })
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe();
+    this.stockActions.open(TransactionType.Out, this.destroyRef, { product });
   }
 
   onEditProduct(product: ProductDto): void {
@@ -131,21 +128,6 @@ export class ProductsListPage implements OnInit {
       )
       .subscribe({
         next: () => this.productsStore.invalidate(),
-      });
-  }
-
-  formatPrice(price: number): string {
-    return new Intl.NumberFormat(undefined, {
-      style: 'currency',
-      currency: 'USD',
-    }).format(price);
-  }
-
-  private setupSearch(): void {
-    this.searchControl.valueChanges
-      .pipe(debounceTime(350), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
-      .subscribe((search) => {
-        this.productsStore.setListQuery({ pageNumber: 1, search });
       });
   }
 }

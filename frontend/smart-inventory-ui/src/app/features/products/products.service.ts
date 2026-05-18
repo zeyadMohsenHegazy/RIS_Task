@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { dataRequestOptions } from '../../core/http/api-http.options';
 import { environment } from '../../../environments/environment';
 import { PagedResponse } from '../../models/paged-response.model';
 import {
@@ -24,11 +25,14 @@ export class ProductsService {
       httpParams = httpParams.set('search', params.search.trim());
     }
 
-    return this.http.get<PagedResponse<ProductDto>>(this.baseUrl, { params: httpParams });
+    return this.http.get<PagedResponse<ProductDto>>(this.baseUrl, {
+      params: httpParams,
+      ...dataRequestOptions(),
+    });
   }
 
   getById(id: number): Observable<ProductDto> {
-    return this.http.get<ProductDto>(`${this.baseUrl}/${id}`);
+    return this.http.get<ProductDto>(`${this.baseUrl}/${id}`, dataRequestOptions());
   }
 
   create(dto: CreateProductDto): Observable<ProductDto> {

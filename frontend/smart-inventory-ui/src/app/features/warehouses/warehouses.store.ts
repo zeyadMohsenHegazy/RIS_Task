@@ -1,14 +1,13 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import { finalize, Subject, switchMap, tap } from 'rxjs';
+import { Subject } from 'rxjs';
 import { WarehouseDto } from '../../models/warehouse.model';
+import { CacheInvalidationService } from '../../store/cache-invalidation.service';
 import {
   AsyncState,
-  errorState,
   idleState,
-  loadingState,
-  successState,
 } from '../../store/models/async-state.model';
-import { CacheInvalidationService } from '../../store/cache-invalidation.service';
+import { connectAsyncStorePipeline } from '../../store/utils/async-store.pipeline';
+import { selectError, selectLoading } from '../../store/utils/store.helpers';
 import { WarehousesService } from './warehouses.service';
 
 @Injectable({ providedIn: 'root' })
@@ -21,12 +20,21 @@ export class WarehousesStore {
   private loadedVersion = -1;
 
   readonly warehouses = computed(() => this.state().data ?? []);
-  readonly loading = computed(() => this.state().status === 'loading');
-  readonly error = computed(() => this.state().error);
+  readonly loading = selectLoading(this.state);
+  readonly error = selectError(this.state);
   readonly isLoaded = computed(() => this.state().status === 'success');
 
   constructor() {
-    this.setupPipeline();
+    connectAsyncStorePipeline({
+      load$: this.load$,
+      state: this.state,
+      request: () => this.api.getAll(),
+      errorMessage: 'Unable to load warehouses. Please try again.',
+      onSuccess: () => {
+        this.loadedVersion = this.cache.warehousesVersion();
+      },
+    });
+
     effect(() => {
       const version = this.cache.warehousesVersion();
       if (this.loadedVersion >= 0 && version !== this.loadedVersion) {
@@ -41,27 +49,5 @@ export class WarehousesStore {
       return;
     }
     this.load$.next();
-  }
-
-  private setupPipeline(): void {
-    this.load$
-      .pipe(
-        tap(() => {
-          const previous = this.state().data;
-          this.state.set(loadingState(previous));
-        }),
-        switchMap(() => this.api.getAll().pipe(finalize(() => undefined))),
-      )
-      .subscribe({
-        next: (warehouses) => {
-          this.state.set(successState(warehouses));
-          this.loadedVersion = this.cache.warehousesVersion();
-        },
-        error: () => {
-          this.state.set(
-            errorState('Unable to load warehouses. Please try again.', this.state().data),
-          );
-        },
-      });
   }
 }

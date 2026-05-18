@@ -1,48 +1,15 @@
-.products-page {
+.page {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
   max-width: 1400px;
   margin: 0 auto;
 
-  &__header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
-  &__header-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    align-items: center;
-  }
-
-  &__title {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-
-  &__subtitle {
-    margin: 0.25rem 0 0;
-    color: var(--sim-text-muted);
-    font-size: 0.9375rem;
-  }
-
   &__toolbar {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 1rem;
-  }
-
-  &__search {
-    flex: 1;
-    min-width: 220px;
-    max-width: 400px;
   }
 
   &__readonly-hint {
@@ -57,26 +24,6 @@
       width: 1.125rem;
       height: 1.125rem;
     }
-  }
-
-  &__table-wrap {
-    position: relative;
-    border-radius: var(--sim-radius);
-    border: 1px solid var(--sim-border);
-    background: var(--sim-surface-card);
-    box-shadow: var(--sim-shadow);
-    overflow: hidden;
-  }
-
-  &__table--hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-    pointer-events: none;
   }
 }
 
@@ -110,13 +57,9 @@
   }
 }
 
-mat-paginator {
-  border-top: 1px solid var(--sim-border);
-}
-
 @media (max-width: 768px) {
-  .products-page__search {
-    max-width: none;
+  app-search-field {
     width: 100%;
+    max-width: none;
   }
 }

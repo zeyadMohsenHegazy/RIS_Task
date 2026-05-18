@@ -1,15 +1,14 @@
-<section class="dashboard">
-  <header class="dashboard__header">
-    <div>
-      <h2 class="dashboard__title">Overview</h2>
-      <p class="dashboard__subtitle">Real-time inventory metrics across your organization</p>
-    </div>
+<section class="dashboard page">
+  <app-page-header
+    title="Overview"
+    subtitle="Real-time inventory metrics across your organization"
+  >
     @if (!loading() && !error()) {
-      <mat-chip-set aria-label="Low stock threshold">
+      <mat-chip-set pageActions aria-label="Low stock threshold">
         <mat-chip highlighted>Low stock ≤ {{ lowStockThreshold }} units</mat-chip>
       </mat-chip-set>
     }
-  </header>
+  </app-page-header>
 
   @if (error()) {
     <app-error-state
@@ -33,21 +32,21 @@
       </div>
     }
 
-  <mat-card class="dashboard__panel">
-    <mat-card-header>
-      <mat-card-title>Low stock products</mat-card-title>
-      <mat-card-subtitle>
-        Products at or below {{ lowStockThreshold }} units in stock
-      </mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <app-data-table
-        [columns]="lowStockColumns"
-        [data]="lowStockData()"
-        [loading]="loading()"
-        emptyMessage="No low stock products — inventory levels look healthy."
-      />
-    </mat-card-content>
-  </mat-card>
+    <mat-card class="dashboard__panel">
+      <mat-card-header>
+        <mat-card-title>Low stock products</mat-card-title>
+        <mat-card-subtitle>
+          Products at or below {{ lowStockThreshold }} units in stock
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <app-data-table
+          [columns]="lowStockColumns"
+          [data]="lowStockData()"
+          [loading]="loading()"
+          emptyMessage="No low stock products — inventory levels look healthy."
+        />
+      </mat-card-content>
+    </mat-card>
   }
 </section>

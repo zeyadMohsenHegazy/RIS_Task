@@ -1,0 +1,25 @@
+.paginated-table-shell {
+  position: relative;
+  border-radius: var(--sim-radius);
+  border: 1px solid var(--sim-border);
+  background: var(--sim-surface-card);
+  box-shadow: var(--sim-shadow);
+  overflow: hidden;
+
+  &__content {
+    &--hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+      pointer-events: none;
+    }
+  }
+}
+
+:host ::ng-deep mat-paginator {
+  border-top: 1px solid var(--sim-border);
+}

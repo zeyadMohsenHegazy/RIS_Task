@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { dataRequestOptions } from '../../core/http/api-http.options';
 import { environment } from '../../../environments/environment';
 import {
   InventoryHistoryQueryParams,
@@ -32,6 +33,7 @@ export class InventoryService {
 
     return this.http.get<PagedResponse<InventoryTransactionDto>>(this.historyUrl, {
       params: httpParams,
+      ...dataRequestOptions(),
     });
   }
 

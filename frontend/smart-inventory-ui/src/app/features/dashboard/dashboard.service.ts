@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { forkJoin, map, Observable } from 'rxjs';
+import { dataRequestOptions } from '../../core/http/api-http.options';
 import { environment } from '../../../environments/environment';
 import { PagedResponse } from '../../models/paged-response.model';
 import { ProductDto } from '../../models/product.model';
@@ -25,19 +26,24 @@ export class DashboardService {
       .set('pageNumber', '1')
       .set('pageSize', '100');
 
+    const readOptions = dataRequestOptions();
+
     return forkJoin({
       productsPage: this.http.get<PagedResponse<ProductDto>>(
         `${this.baseUrl}/products`,
-        { params: countParams },
+        { params: countParams, ...readOptions },
       ),
-      warehouses: this.http.get<WarehouseDto[]>(`${this.baseUrl}/warehouses`),
+      warehouses: this.http.get<WarehouseDto[]>(
+        `${this.baseUrl}/warehouses`,
+        readOptions,
+      ),
       transactionsPage: this.http.get<PagedResponse<unknown>>(
         `${this.baseUrl}/inventory/history`,
-        { params: countParams },
+        { params: countParams, ...readOptions },
       ),
       productsList: this.http.get<PagedResponse<ProductDto>>(
         `${this.baseUrl}/products`,
-        { params: productsParams },
+        { params: productsParams, ...readOptions },
       ),
     }).pipe(map((result) => this.mapToDashboardStats(result)));
   }

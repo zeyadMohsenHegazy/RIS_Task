@@ -1,46 +1,24 @@
-<section class="products-page">
-  <header class="products-page__header">
-    <div>
-      <h2 class="products-page__title">Products</h2>
-      <p class="products-page__subtitle">Manage your product catalog</p>
-    </div>
+<section class="page">
+  <app-page-header title="Products" subtitle="Manage your product catalog">
     @if (isAdmin()) {
-      <div class="products-page__header-actions">
-        <button mat-stroked-button type="button" (click)="onStockIn()">
-          <mat-icon>add_circle</mat-icon>
-          Stock In
-        </button>
-        <button mat-stroked-button color="warn" type="button" (click)="onStockOut()">
-          <mat-icon>remove_circle</mat-icon>
-          Stock Out
-        </button>
+      <ng-container pageActions>
+        <app-stock-action-buttons (stockIn)="onStockIn()" (stockOut)="onStockOut()" />
         <button mat-flat-button color="primary" type="button" (click)="onAddProduct()">
           <mat-icon>add</mat-icon>
           Add product
         </button>
-      </div>
+      </ng-container>
     }
-  </header>
+  </app-page-header>
 
-  <div class="products-page__toolbar">
-    <mat-form-field appearance="outline" class="products-page__search">
-      <mat-label>Search by name</mat-label>
-      <input matInput [formControl]="searchControl" placeholder="e.g. Laptop" />
-      <mat-icon matPrefix>search</mat-icon>
-      @if (searchControl.value) {
-        <button
-          mat-icon-button
-          matSuffix
-          type="button"
-          aria-label="Clear search"
-          (click)="searchControl.setValue('')"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      }
-    </mat-form-field>
+  <div class="page__toolbar">
+    <app-search-field
+      label="Search by name"
+      placeholder="e.g. Laptop"
+      [control]="searchControl"
+    />
     @if (!isAdmin()) {
-      <span class="products-page__readonly-hint">
+      <span class="page__readonly-hint">
         <mat-icon>visibility</mat-icon>
         View only
       </span>
@@ -54,12 +32,15 @@
       (retry)="loadProducts()"
     />
   } @else {
-    <div class="products-page__table-wrap" [class.products-page__table-wrap--loading]="loading()">
-      @if (loading()) {
-        <app-table-skeleton [columns]="displayedColumns().length" [rows]="8" />
-      }
-
-      <div class="products-page__table" [class.products-page__table--hidden]="loading()">
+    <app-paginated-table-shell
+      [loading]="loading()"
+      [totalCount]="totalCount()"
+      [pageIndex]="pageIndex()"
+      [pageSize]="pageSize()"
+      [columnCount]="displayedColumns().length"
+      paginatorLabel="Products pagination"
+      (pageChange)="onPageChange($event)"
+    >
       <table
         mat-table
         [dataSource]="products()"
@@ -148,17 +129,6 @@
           </td>
         </tr>
       </table>
-      </div>
-
-      <mat-paginator
-        [length]="totalCount()"
-        [pageIndex]="pageIndex()"
-        [pageSize]="pageSize()"
-        [pageSizeOptions]="pageSizeOptions"
-        [showFirstLastButtons]="true"
-        aria-label="Products pagination"
-        (page)="onPageChange($event)"
-      />
-    </div>
+    </app-paginated-table-shell>
   }
 </section>

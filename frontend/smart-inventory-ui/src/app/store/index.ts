@@ -6,3 +6,5 @@ export {
   successState,
   errorState,
 } from './models/async-state.model';
+export { selectLoading, selectError, selectData } from './utils/store.helpers';
+export { connectAsyncStorePipeline } from './utils/async-store.pipeline';

@@ -1,14 +1,13 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import { finalize, Subject, switchMap, tap } from 'rxjs';
+import { Subject } from 'rxjs';
 import { DashboardStats } from './models/dashboard.model';
+import { CacheInvalidationService } from '../../store/cache-invalidation.service';
 import {
   AsyncState,
-  errorState,
   idleState,
-  loadingState,
-  successState,
 } from '../../store/models/async-state.model';
-import { CacheInvalidationService } from '../../store/cache-invalidation.service';
+import { connectAsyncStorePipeline } from '../../store/utils/async-store.pipeline';
+import { selectError, selectLoading } from '../../store/utils/store.helpers';
 import { DashboardService } from './dashboard.service';
 
 @Injectable({ providedIn: 'root' })
@@ -21,12 +20,22 @@ export class DashboardStore {
   private loadedVersion = -1;
 
   readonly stats = computed(() => this.state().data);
-  readonly loading = computed(() => this.state().status === 'loading');
-  readonly error = computed(() => this.state().error);
+  readonly loading = selectLoading(this.state);
+  readonly error = selectError(this.state);
   readonly lowStockProducts = computed(() => this.state().data?.lowStockProducts ?? []);
 
   constructor() {
-    this.setupPipeline();
+    connectAsyncStorePipeline({
+      load$: this.load$,
+      state: this.state,
+      request: () => this.api.getStats(),
+      errorMessage:
+        'Unable to load dashboard data. Please check your connection and try again.',
+      onSuccess: () => {
+        this.loadedVersion = this.cache.dashboardVersion();
+      },
+    });
+
     effect(() => {
       const version = this.cache.dashboardVersion();
       if (this.loadedVersion >= 0 && version !== this.loadedVersion) {
@@ -41,30 +50,5 @@ export class DashboardStore {
       return;
     }
     this.load$.next();
-  }
-
-  private setupPipeline(): void {
-    this.load$
-      .pipe(
-        tap(() => {
-          const previous = this.state().data;
-          this.state.set(loadingState(previous));
-        }),
-        switchMap(() => this.api.getStats().pipe(finalize(() => undefined))),
-      )
-      .subscribe({
-        next: (stats) => {
-          this.state.set(successState(stats));
-          this.loadedVersion = this.cache.dashboardVersion();
-        },
-        error: () => {
-          this.state.set(
-            errorState(
-              'Unable to load dashboard data. Please check your connection and try again.',
-              this.state().data,
-            ),
-          );
-        },
-      });
   }
 }

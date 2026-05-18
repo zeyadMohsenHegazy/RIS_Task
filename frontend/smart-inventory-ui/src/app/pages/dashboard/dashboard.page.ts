@@ -6,6 +6,7 @@ import { LOW_STOCK_THRESHOLD, LowStockProduct } from '../../features/dashboard/m
 import {
   DataTable,
   ErrorState,
+  PageHeader,
   StatCard,
   StatCardsSkeleton,
   TableColumn,
@@ -19,6 +20,7 @@ import {
     StatCard,
     DataTable,
     ErrorState,
+    PageHeader,
     StatCardsSkeleton,
   ],
   templateUrl: './dashboard.page.html',
@@ -34,7 +36,6 @@ export class DashboardPage implements OnInit {
 
   readonly statCards = computed(() => {
     const data = this.stats();
-    const isLoading = this.loading();
 
     return [
       {
@@ -42,28 +43,24 @@ export class DashboardPage implements OnInit {
         value: data?.totalProducts ?? null,
         icon: 'inventory_2',
         accent: 'primary' as const,
-        loading: isLoading,
       },
       {
         label: 'Total Warehouses',
         value: data?.totalWarehouses ?? null,
         icon: 'warehouse',
         accent: 'accent' as const,
-        loading: isLoading,
       },
       {
         label: 'Inventory Transactions',
         value: data?.totalInventoryTransactions ?? null,
         icon: 'swap_horiz',
         accent: 'neutral' as const,
-        loading: isLoading,
       },
       {
         label: 'Low Stock Products',
         value: data?.lowStockCount ?? null,
         icon: 'warning_amber',
         accent: 'warn' as const,
-        loading: isLoading,
       },
     ];
   });

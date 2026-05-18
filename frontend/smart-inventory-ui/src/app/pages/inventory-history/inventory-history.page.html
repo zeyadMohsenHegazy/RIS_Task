@@ -1,42 +1,22 @@
-<section class="inventory-page">
-  <header class="inventory-page__header">
-    <div>
-      <h2 class="inventory-page__title">Inventory History</h2>
-      <p class="inventory-page__subtitle">Track stock movements across products</p>
-    </div>
+<section class="page">
+  <app-page-header title="Inventory History" subtitle="Track stock movements across products">
     @if (isAdmin()) {
-      <div class="inventory-page__header-actions">
-        <button mat-stroked-button type="button" (click)="onStockIn()">
-          <mat-icon>add_circle</mat-icon>
-          Stock In
-        </button>
-        <button mat-stroked-button color="warn" type="button" (click)="onStockOut()">
-          <mat-icon>remove_circle</mat-icon>
-          Stock Out
-        </button>
-      </div>
+      <app-stock-action-buttons
+        pageActions
+        (stockIn)="onStockIn()"
+        (stockOut)="onStockOut()"
+      />
     }
-  </header>
+  </app-page-header>
 
-  <div class="inventory-page__filters">
-    <mat-form-field appearance="outline" class="inventory-page__search">
-      <mat-label>Search by product name</mat-label>
-      <input matInput [formControl]="searchControl" placeholder="e.g. Laptop" />
-      <mat-icon matPrefix>search</mat-icon>
-      @if (searchControl.value) {
-        <button
-          mat-icon-button
-          matSuffix
-          type="button"
-          aria-label="Clear search"
-          (click)="searchControl.setValue('')"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      }
-    </mat-form-field>
+  <div class="page__filters">
+    <app-search-field
+      label="Search by product name"
+      placeholder="e.g. Laptop"
+      [control]="searchControl"
+    />
 
-    <mat-form-field appearance="outline" class="inventory-page__type-filter">
+    <mat-form-field appearance="outline" class="page__type-filter">
       <mat-label>Transaction type</mat-label>
       <mat-select [formControl]="typeFilterControl">
         @for (option of typeFilterOptions; track option.label) {
@@ -53,91 +33,80 @@
       (retry)="loadHistory()"
     />
   } @else {
-    <div class="inventory-page__table-wrap" [class.inventory-page__table-wrap--loading]="loading()">
-      @if (loading()) {
-        <app-table-skeleton [columns]="displayedColumns.length" [rows]="8" />
-      }
-
-      <div
-        class="inventory-table-scroll"
-        [class.inventory-table-scroll--hidden]="loading()"
+    <app-paginated-table-shell
+      [loading]="loading()"
+      [totalCount]="totalCount()"
+      [pageIndex]="pageIndex()"
+      [pageSize]="pageSize()"
+      [columnCount]="displayedColumns.length"
+      paginatorLabel="Inventory history pagination"
+      (pageChange)="onPageChange($event)"
+    >
+      <table
+        mat-table
+        [dataSource]="transactions()"
+        class="inventory-table"
+        aria-label="Inventory transaction history"
       >
-        <table
-          mat-table
-          [dataSource]="transactions()"
-          class="inventory-table"
-          aria-label="Inventory transaction history"
-        >
-          <ng-container matColumnDef="productName">
-            <th mat-header-cell *matHeaderCellDef>Product</th>
-            <td mat-cell *matCellDef="let row">
-              <span class="product-name">{{ row.productName }}</span>
-              <span class="product-sku">{{ row.productSku }}</span>
-            </td>
-          </ng-container>
+        <ng-container matColumnDef="productName">
+          <th mat-header-cell *matHeaderCellDef>Product</th>
+          <td mat-cell *matCellDef="let row">
+            <span class="product-name">{{ row.productName }}</span>
+            <span class="product-sku">{{ row.productSku }}</span>
+          </td>
+        </ng-container>
 
-          <ng-container matColumnDef="transactionType">
-            <th mat-header-cell *matHeaderCellDef>Type</th>
-            <td mat-cell *matCellDef="let row">
-              <span
-                class="type-badge"
-                [class.type-badge--in]="row.transactionType === transactionType.In"
-                [class.type-badge--out]="row.transactionType === transactionType.Out"
-              >
-                {{ getTypeLabel(row.transactionType) }}
-              </span>
-            </td>
-          </ng-container>
+        <ng-container matColumnDef="transactionType">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let row">
+            <span
+              class="type-badge"
+              [class.type-badge--in]="row.transactionType === transactionType.In"
+              [class.type-badge--out]="row.transactionType === transactionType.Out"
+            >
+              {{ getTypeLabel(row.transactionType) }}
+            </span>
+          </td>
+        </ng-container>
 
-          <ng-container matColumnDef="quantity">
-            <th mat-header-cell *matHeaderCellDef>Quantity</th>
-            <td mat-cell *matCellDef="let row">
-              <span
-                class="quantity-value"
-                [class.quantity-value--in]="row.transactionType === transactionType.In"
-                [class.quantity-value--out]="row.transactionType === transactionType.Out"
-              >
-                @if (row.transactionType === transactionType.In) {
-                  +{{ row.quantity }}
-                } @else {
-                  −{{ row.quantity }}
-                }
-              </span>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="createdByUsername">
-            <th mat-header-cell *matHeaderCellDef>User</th>
-            <td mat-cell *matCellDef="let row">{{ row.createdByUsername }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="transactionDate">
-            <th mat-header-cell *matHeaderCellDef>Date</th>
-            <td mat-cell *matCellDef="let row">{{ formatDate(row.transactionDate) }}</td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell inventory-table__empty" [attr.colspan]="displayedColumns.length">
-              @if (!loading()) {
-                No transactions found.
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef>Quantity</th>
+          <td mat-cell *matCellDef="let row">
+            <span
+              class="quantity-value"
+              [class.quantity-value--in]="row.transactionType === transactionType.In"
+              [class.quantity-value--out]="row.transactionType === transactionType.Out"
+            >
+              @if (row.transactionType === transactionType.In) {
+                +{{ row.quantity }}
+              } @else {
+                −{{ row.quantity }}
               }
-            </td>
-          </tr>
-        </table>
-      </div>
+            </span>
+          </td>
+        </ng-container>
 
-      <mat-paginator
-        [length]="totalCount()"
-        [pageIndex]="pageIndex()"
-        [pageSize]="pageSize()"
-        [pageSizeOptions]="pageSizeOptions"
-        [showFirstLastButtons]="true"
-        aria-label="Inventory history pagination"
-        (page)="onPageChange($event)"
-      />
-    </div>
+        <ng-container matColumnDef="createdByUsername">
+          <th mat-header-cell *matHeaderCellDef>User</th>
+          <td mat-cell *matCellDef="let row">{{ row.createdByUsername }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="transactionDate">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let row">{{ formatDate(row.transactionDate) }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell inventory-table__empty" [attr.colspan]="displayedColumns.length">
+            @if (!loading()) {
+              No transactions found.
+            }
+          </td>
+        </tr>
+      </table>
+    </app-paginated-table-shell>
   }
 </section>

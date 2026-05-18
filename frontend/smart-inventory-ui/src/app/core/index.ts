@@ -3,6 +3,7 @@ export {
   SKIP_GLOBAL_ERROR_HANDLING,
   SKIP_GLOBAL_LOADER,
 } from './http/http-context.tokens';
+export { dataRequestOptions } from './http/api-http.options';
 export { LoadingService } from './loading/loading.service';
 export {
   NotificationService,

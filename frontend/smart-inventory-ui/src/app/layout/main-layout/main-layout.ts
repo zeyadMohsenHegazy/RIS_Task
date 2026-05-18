@@ -50,17 +50,18 @@ export class MainLayout {
   }
 
   private resolvePageTitle(): string {
+    let route = this.router.routerState.root;
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+
+    const dataTitle = route.snapshot.data['title'];
+    if (typeof dataTitle === 'string') {
+      return dataTitle;
+    }
+
     const url = this.router.url.split('?')[0];
     const match = MAIN_NAV_ITEMS.find((item) => url.startsWith(item.route));
-    if (match) {
-      return match.label;
-    }
-    if (url.includes('/products/new')) {
-      return 'Add Product';
-    }
-    if (url.includes('/edit')) {
-      return 'Edit Product';
-    }
-    return 'Smart Inventory';
+    return match?.label ?? 'Smart Inventory';
   }
 }

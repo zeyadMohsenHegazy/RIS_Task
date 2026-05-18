@@ -1,15 +1,15 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import { finalize, Subject, switchMap, tap } from 'rxjs';
+import { map, Subject } from 'rxjs';
 import { PagedResponse } from '../../models/paged-response.model';
 import { ProductDto, ProductQueryParams } from '../../models/product.model';
+import { DEFAULT_PAGE_SIZE } from '../../shared/constants/pagination.constants';
+import { CacheInvalidationService } from '../../store/cache-invalidation.service';
 import {
   AsyncState,
-  errorState,
   idleState,
-  loadingState,
-  successState,
 } from '../../store/models/async-state.model';
-import { CacheInvalidationService } from '../../store/cache-invalidation.service';
+import { connectAsyncStorePipeline } from '../../store/utils/async-store.pipeline';
+import { selectError, selectLoading } from '../../store/utils/store.helpers';
 import { ProductsService } from './products.service';
 
 export interface ProductsListQuery {
@@ -19,7 +19,11 @@ export interface ProductsListQuery {
 }
 
 const PICKER_PAGE_SIZE = 100;
-const DEFAULT_QUERY: ProductsListQuery = { pageNumber: 1, pageSize: 10, search: '' };
+const DEFAULT_QUERY: ProductsListQuery = {
+  pageNumber: 1,
+  pageSize: DEFAULT_PAGE_SIZE,
+  search: '',
+};
 
 @Injectable({ providedIn: 'root' })
 export class ProductsStore {
@@ -35,20 +39,47 @@ export class ProductsStore {
   private pickerLoadedVersion = -1;
 
   readonly listQuery = this.query.asReadonly();
-  readonly list = computed(() => this.listState());
   readonly products = computed(() => this.listState().data?.items ?? []);
   readonly totalCount = computed(() => this.listState().data?.totalCount ?? 0);
-  readonly listLoading = computed(() => this.listState().status === 'loading');
-  readonly listError = computed(() => this.listState().error);
+  readonly listLoading = selectLoading(this.listState);
+  readonly listError = selectError(this.listState);
 
-  readonly picker = computed(() => this.pickerState());
   readonly pickerProducts = computed(() => this.pickerState().data ?? []);
-  readonly pickerLoading = computed(() => this.pickerState().status === 'loading');
-  readonly pickerError = computed(() => this.pickerState().error);
+  readonly pickerLoading = selectLoading(this.pickerState);
+  readonly pickerError = selectError(this.pickerState);
 
   constructor() {
-    this.setupListPipeline();
-    this.setupPickerPipeline();
+    connectAsyncStorePipeline({
+      load$: this.listLoad$,
+      state: this.listState,
+      request: () => {
+        const q = this.query();
+        const params: ProductQueryParams = {
+          pageNumber: q.pageNumber,
+          pageSize: q.pageSize,
+          search: q.search || undefined,
+        };
+        return this.api.getProducts(params);
+      },
+      errorMessage: 'Unable to load products. Please try again.',
+      onSuccess: () => {
+        this.listLoadedVersion = this.cache.productsVersion();
+      },
+    });
+
+    connectAsyncStorePipeline({
+      load$: this.pickerLoad$,
+      state: this.pickerState,
+      request: () =>
+        this.api
+          .getProducts({ pageNumber: 1, pageSize: PICKER_PAGE_SIZE })
+          .pipe(map((response) => response.items)),
+      errorMessage: 'Failed to load products.',
+      onSuccess: () => {
+        this.pickerLoadedVersion = this.cache.productsVersion();
+      },
+    });
+
     this.setupInvalidationEffects();
   }
 
@@ -61,7 +92,6 @@ export class ProductsStore {
     this.listLoad$.next();
   }
 
-  /** Cached product list for dropdowns (dialog, etc.). */
   loadPicker(force = false): void {
     const version = this.cache.productsVersion();
     if (
@@ -76,66 +106,6 @@ export class ProductsStore {
 
   invalidate(): void {
     this.cache.invalidateProducts();
-  }
-
-  private setupListPipeline(): void {
-    this.listLoad$
-      .pipe(
-        tap(() => {
-          const previous = this.listState().data;
-          this.listState.set(loadingState(previous));
-        }),
-        switchMap(() => {
-          const q = this.query();
-          const params: ProductQueryParams = {
-            pageNumber: q.pageNumber,
-            pageSize: q.pageSize,
-            search: q.search || undefined,
-          };
-          return this.api.getProducts(params).pipe(
-            finalize(() => {
-              /* status set in subscribe */
-            }),
-          );
-        }),
-      )
-      .subscribe({
-        next: (response) => {
-          this.listState.set(successState(response));
-          this.listLoadedVersion = this.cache.productsVersion();
-        },
-        error: () => {
-          this.listState.set(
-            errorState('Unable to load products. Please try again.', this.listState().data),
-          );
-        },
-      });
-  }
-
-  private setupPickerPipeline(): void {
-    this.pickerLoad$
-      .pipe(
-        tap(() => {
-          const previous = this.pickerState().data;
-          this.pickerState.set(loadingState(previous));
-        }),
-        switchMap(() =>
-          this.api
-            .getProducts({ pageNumber: 1, pageSize: PICKER_PAGE_SIZE })
-            .pipe(finalize(() => undefined)),
-        ),
-      )
-      .subscribe({
-        next: (response) => {
-          this.pickerState.set(successState(response.items));
-          this.pickerLoadedVersion = this.cache.productsVersion();
-        },
-        error: () => {
-          this.pickerState.set(
-            errorState('Failed to load products.', this.pickerState().data),
-          );
-        },
-      });
   }
 
   private setupInvalidationEffects(): void {

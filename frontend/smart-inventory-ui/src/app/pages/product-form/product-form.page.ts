@@ -26,7 +26,7 @@ import { AuthService } from '../../features/auth/auth.service';
 import { ProductsService } from '../../features/products/products.service';
 import { ProductsStore } from '../../features/products/products.store';
 import { WarehousesStore } from '../../features/warehouses/warehouses.store';
-import { ErrorState, FormSkeleton, LoadingButton } from '../../shared';
+import { ErrorState, FormSkeleton, LoadingButton, PageHeader } from '../../shared';
 
 interface ProductFormPatch {
   name: string;
@@ -50,6 +50,7 @@ interface ProductFormPatch {
     ErrorState,
     FormSkeleton,
     LoadingButton,
+    PageHeader,
   ],
   templateUrl: './product-form.page.html',
   styleUrl: './product-form.page.scss',

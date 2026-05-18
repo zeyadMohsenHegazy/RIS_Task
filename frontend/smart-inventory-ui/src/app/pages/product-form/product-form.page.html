@@ -1,16 +1,13 @@
-<section class="product-form-page">
-  <header class="product-form-page__header">
-    <div>
-      <h2 class="product-form-page__title">{{ pageTitle() }}</h2>
-      <p class="product-form-page__subtitle">
-        {{ isEditMode() ? 'Update product details' : 'Add a new product to the catalog' }}
-      </p>
-    </div>
-    <a mat-button routerLink="/products">
+<section class="product-form-page page">
+  <app-page-header
+    [title]="pageTitle()"
+    [subtitle]="isEditMode() ? 'Update product details' : 'Add a new product to the catalog'"
+  >
+    <a pageActions mat-button routerLink="/products">
       <mat-icon>arrow_back</mat-icon>
       Back to products
     </a>
-  </header>
+  </app-page-header>
 
   @if (loadError()) {
     <app-error-state
