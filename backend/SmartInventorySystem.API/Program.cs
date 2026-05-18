@@ -4,9 +4,10 @@ using SmartInventorySystem.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// SQL Server: ConnectionStrings:DefaultConnection in appsettings.json
 builder.Services.AddApiServices();
 builder.Services.AddApplication();
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration); // registers ApplicationDbContext
 
 var app = builder.Build();
 

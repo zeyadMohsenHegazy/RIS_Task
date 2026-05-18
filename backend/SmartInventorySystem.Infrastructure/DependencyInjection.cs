@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SmartInventorySystem.Infrastructure.Persistence;
 
 namespace SmartInventorySystem.Infrastructure;
 
@@ -9,9 +10,8 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        _ = configuration;
+        services.AddPersistence(configuration);
 
-        // Persistence (DbContext) — register when entities and DbContext exist
         // Repositories — register when interfaces and implementations exist
         // Authentication — register when JWT/auth is implemented
         services.AddMemoryCache();
