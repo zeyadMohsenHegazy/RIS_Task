@@ -1,3 +1,5 @@
+export { StatCard } from './components/stat-card/stat-card';
+export type { StatCardAccent } from './components/stat-card/stat-card';
 export { DataTable } from './components/data-table/data-table';
 export { LoadingSpinner } from './components/loading-spinner/loading-spinner';
 export { ErrorState } from './components/error-state/error-state';

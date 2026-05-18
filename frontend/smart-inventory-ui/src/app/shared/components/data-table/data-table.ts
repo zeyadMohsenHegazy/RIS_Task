@@ -10,7 +10,7 @@ import { LoadingSpinner } from '../loading-spinner/loading-spinner';
   templateUrl: './data-table.html',
   styleUrl: './data-table.scss',
 })
-export class DataTable<T extends Record<string, unknown>> {
+export class DataTable<T extends object> {
   readonly columns = input.required<TableColumn<T>[]>();
   readonly data = input<T[]>([]);
   readonly loading = input(false);
@@ -22,7 +22,7 @@ export class DataTable<T extends Record<string, unknown>> {
     if (column.format) {
       return column.format(row);
     }
-    const value = row[column.key];
+    const value = (row as Record<string, unknown>)[column.key];
     return value == null ? '' : String(value);
   }
 }

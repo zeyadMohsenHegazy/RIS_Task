@@ -1,4 +1,4 @@
-export interface TableColumn<T = Record<string, unknown>> {
+export interface TableColumn<T = object> {
   key: string;
   label: string;
   sortable?: boolean;

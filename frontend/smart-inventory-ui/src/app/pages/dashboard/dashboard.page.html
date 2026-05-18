@@ -1,9 +1,55 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Dashboard</mat-card-title>
-    <mat-card-subtitle>Overview placeholder</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <p>Dashboard metrics and widgets will be implemented here.</p>
-  </mat-card-content>
-</mat-card>
+<section class="dashboard">
+  <header class="dashboard__header">
+    <div>
+      <h2 class="dashboard__title">Overview</h2>
+      <p class="dashboard__subtitle">Real-time inventory metrics across your organization</p>
+    </div>
+    @if (!loading() && !error()) {
+      <mat-chip-set aria-label="Low stock threshold">
+        <mat-chip highlighted>Low stock ≤ {{ lowStockThreshold }} units</mat-chip>
+      </mat-chip-set>
+    }
+  </header>
+
+  @if (error()) {
+    <app-error-state
+      title="Failed to load dashboard"
+      [message]="error()!"
+      (retry)="loadDashboard()"
+    />
+  } @else {
+    <div class="dashboard__grid">
+      @for (card of statCards(); track card.label) {
+        <app-stat-card
+          [label]="card.label"
+          [value]="card.value"
+          [icon]="card.icon"
+          [accent]="card.accent"
+          [loading]="card.loading"
+        />
+      }
+    </div>
+
+  <mat-card class="dashboard__panel">
+    <mat-card-header>
+      <mat-card-title>Low stock products</mat-card-title>
+      <mat-card-subtitle>
+        Products at or below {{ lowStockThreshold }} units in stock
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      @if (loading()) {
+        <app-loading-spinner message="Loading low stock products..." />
+      } @else if (lowStockData().length === 0) {
+        <p class="dashboard__empty">No low stock products — inventory levels look healthy.</p>
+      } @else {
+        <app-data-table
+          [columns]="lowStockColumns"
+          [data]="lowStockData()"
+          emptyMessage="No low stock products"
+        />
+      }
+    </mat-card-content>
+  </mat-card>
+  }
+</section>
