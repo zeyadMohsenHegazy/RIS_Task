@@ -1,0 +1,22 @@
+# Merge with the API stack from the repo root or Back-End folder:
+#
+#   docker compose -f Back-End/docker-compose.yml -f Front-End/docker-compose.frontend.yml up --build -d
+#
+# UI:  http://localhost:8081
+# API: http://localhost:8080
+
+services:
+  frontend:
+    build:
+      context: ./smart-inventory-ui
+      dockerfile: Dockerfile
+    container_name: smartinventory-frontend
+    ports:
+      - "${FRONTEND_PORT:-8081}:80"
+    environment:
+      # Browser-facing URL (host machine), not the internal Docker service name
+      API_URL: "${API_URL:-http://localhost:8080/api}"
+      APP_NAME: "${APP_NAME:-Smart Inventory}"
+    depends_on:
+      - api
+    restart: unless-stopped

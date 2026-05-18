@@ -1,0 +1,12 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: smartinventory-frontend
+    ports:
+      - "${FRONTEND_PORT:-8081}:80"
+    environment:
+      API_URL: "${API_URL:-http://localhost:8080/api}"
+      APP_NAME: "${APP_NAME:-Smart Inventory}"
+    restart: unless-stopped
