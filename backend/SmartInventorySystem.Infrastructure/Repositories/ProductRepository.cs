@@ -48,4 +48,11 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
         return await Context.InventoryTransactions
             .AnyAsync(t => t.ProductId == productId, cancellationToken);
     }
+
+    public async Task<Product?> GetByIdForUpdateAsync(
+        int id,
+        CancellationToken cancellationToken = default)
+    {
+        return await DbSet.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+    }
 }

@@ -1,5 +1,7 @@
 using System.Reflection;
 using Microsoft.OpenApi.Models;
+using SmartInventorySystem.API.Services;
+using SmartInventorySystem.Application.Interfaces;
 
 namespace SmartInventorySystem.API.Extensions;
 
@@ -7,6 +9,9 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddApiServices(this IServiceCollection services)
     {
+        services.AddHttpContextAccessor();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
+
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
