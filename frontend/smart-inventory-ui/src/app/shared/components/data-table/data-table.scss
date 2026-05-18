@@ -1,0 +1,22 @@
+.data-table {
+  position: relative;
+  border-radius: var(--sim-radius);
+  background: var(--sim-surface-card);
+  border: 1px solid var(--sim-border);
+  box-shadow: var(--sim-shadow);
+  overflow: hidden;
+
+  &__scroll {
+    overflow-x: auto;
+  }
+
+  &__table {
+    width: 100%;
+  }
+
+  &__empty {
+    text-align: center;
+    padding: 2.5rem 1rem !important;
+    color: var(--sim-text-muted);
+  }
+}

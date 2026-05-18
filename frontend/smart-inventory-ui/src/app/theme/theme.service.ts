@@ -1,13 +1,16 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 
 const THEME_STORAGE_KEY = 'sim-theme';
+
+export type ThemeMode = 'light' | 'dark';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
   readonly isDark = signal(true);
+  readonly mode = computed<ThemeMode>(() => (this.isDark() ? 'dark' : 'light'));
 
   constructor() {
-    const saved = localStorage.getItem(THEME_STORAGE_KEY);
+    const saved = localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode | null;
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const isDark =
       saved === 'dark' ? true : saved === 'light' ? false : prefersDark;
@@ -20,6 +23,10 @@ export class ThemeService {
 
   setDarkMode(isDark: boolean): void {
     this.applyTheme(isDark);
+  }
+
+  setMode(mode: ThemeMode): void {
+    this.applyTheme(mode === 'dark');
   }
 
   private applyTheme(isDark: boolean): void {

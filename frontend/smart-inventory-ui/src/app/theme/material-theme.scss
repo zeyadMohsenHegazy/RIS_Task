@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
 @use './palette' as palette;
 @use './typography' as typography;
+@use './layout';
 
 @include mat.core();
 

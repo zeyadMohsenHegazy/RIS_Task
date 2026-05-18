@@ -1,37 +1,66 @@
-import { Component, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
-import { AuthService } from '../../features/auth/auth.service';
-import { ThemeService } from '../../theme/theme.service';
-import { environment } from '../../../environments/environment';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, computed, inject, viewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { filter, map } from 'rxjs';
+import { Sidebar } from '../sidebar/sidebar';
+import { TopNavbar } from '../top-navbar/top-navbar';
+import { MAIN_NAV_ITEMS } from '../navigation.config';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [
-    RouterOutlet,
-    RouterLink,
-    RouterLinkActive,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatIconModule,
-    MatButtonModule,
-    MatMenuModule,
-  ],
+  imports: [RouterOutlet, MatSidenavModule, Sidebar, TopNavbar],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss',
 })
 export class MainLayout {
-  readonly appName = environment.appName;
-  readonly auth = inject(AuthService);
-  readonly themeService = inject(ThemeService);
+  private readonly breakpoint = inject(BreakpointObserver);
+  private readonly router = inject(Router);
 
-  logout(): void {
-    this.auth.logout();
+  private readonly drawer = viewChild<MatSidenav>('drawer');
+
+  protected readonly isHandset = toSignal(
+    this.breakpoint.observe(Breakpoints.Handset).pipe(map((state) => state.matches)),
+    { initialValue: false },
+  );
+
+  readonly sidenavMode = computed<'over' | 'side'>(() =>
+    this.isHandset() ? 'over' : 'side',
+  );
+
+  readonly showMenuButton = computed(() => this.isHandset());
+
+  readonly pageTitle = toSignal(
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map(() => this.resolvePageTitle()),
+    ),
+    { initialValue: this.resolvePageTitle() },
+  );
+
+  toggleSidenav(): void {
+    this.drawer()?.toggle();
+  }
+
+  closeSidenavOnMobile(): void {
+    if (this.isHandset()) {
+      this.drawer()?.close();
+    }
+  }
+
+  private resolvePageTitle(): string {
+    const url = this.router.url.split('?')[0];
+    const match = MAIN_NAV_ITEMS.find((item) => url.startsWith(item.route));
+    if (match) {
+      return match.label;
+    }
+    if (url.includes('/products/new')) {
+      return 'Add Product';
+    }
+    if (url.includes('/edit')) {
+      return 'Edit Product';
+    }
+    return 'Smart Inventory';
   }
 }

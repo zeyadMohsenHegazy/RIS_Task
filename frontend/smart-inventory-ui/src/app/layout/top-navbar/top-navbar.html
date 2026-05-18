@@ -1,0 +1,49 @@
+<mat-toolbar class="top-navbar">
+  @if (showMenuButton()) {
+    <button
+      mat-icon-button
+      type="button"
+      class="top-navbar__menu"
+      (click)="onMenuClick()"
+      aria-label="Toggle navigation"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+  }
+
+  <h1 class="top-navbar__title">{{ pageTitle() }}</h1>
+
+  <span class="top-navbar__spacer"></span>
+
+  <button
+    mat-icon-button
+    type="button"
+    (click)="theme.toggle()"
+    [attr.aria-label]="theme.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+  >
+    <mat-icon>{{ theme.isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+  </button>
+
+  @if (auth.currentUser(); as user) {
+    <button
+      mat-icon-button
+      type="button"
+      [matMenuTriggerFor]="profileMenu"
+      aria-label="User profile menu"
+    >
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #profileMenu="matMenu" xPosition="before">
+      <div class="top-navbar__menu-header">
+        <span class="top-navbar__menu-email">{{ user.email }}</span>
+        @if (user.roles.length) {
+          <span class="top-navbar__menu-roles">{{ user.roles.join(', ') }}</span>
+        }
+      </div>
+      <button mat-menu-item type="button" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Sign out</span>
+      </button>
+    </mat-menu>
+  }
+</mat-toolbar>

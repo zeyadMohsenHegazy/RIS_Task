@@ -1,0 +1,28 @@
+@mixin sim-layout-tokens($is-dark: false) {
+  --sim-sidebar-width: 260px;
+  --sim-toolbar-height: 64px;
+  --sim-content-padding: 1.5rem;
+  --sim-radius: 12px;
+  --sim-border: #{if(
+    $is-dark,
+    rgba(255, 255, 255, 0.08),
+    rgba(0, 0, 0, 0.08)
+  )};
+  --sim-surface-card: #{if($is-dark, #1e1e1e, #ffffff)};
+  --sim-surface-sidebar: #{if($is-dark, #161616, #ffffff)};
+  --sim-surface-toolbar: #{if($is-dark, #1a1a1a, #ffffff)};
+  --sim-text-muted: #{if($is-dark, rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0.6))};
+  --sim-shadow: #{if(
+    $is-dark,
+    0 4px 24px rgba(0, 0, 0, 0.4),
+    0 2px 12px rgba(0, 0, 0, 0.08)
+  )};
+}
+
+html.light-theme {
+  @include sim-layout-tokens(false);
+}
+
+html.dark-theme {
+  @include sim-layout-tokens(true);
+}

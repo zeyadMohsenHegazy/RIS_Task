@@ -1,0 +1,31 @@
+import { Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { ConfirmDialogData } from './confirm-dialog.model';
+
+@Component({
+  selector: 'app-confirm-dialog',
+  imports: [MatDialogModule, MatButtonModule],
+  templateUrl: './confirm-dialog.html',
+  styleUrl: './confirm-dialog.scss',
+})
+export class ConfirmDialog {
+  readonly data = inject<ConfirmDialogData>(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject(MatDialogRef<ConfirmDialog, boolean>);
+
+  readonly confirmText = this.data.confirmText ?? 'Confirm';
+  readonly cancelText = this.data.cancelText ?? 'Cancel';
+  readonly confirmColor = this.data.confirmColor ?? 'primary';
+
+  confirm(): void {
+    this.dialogRef.close(true);
+  }
+
+  cancel(): void {
+    this.dialogRef.close(false);
+  }
+}
