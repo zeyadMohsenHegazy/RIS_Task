@@ -27,7 +27,9 @@ import {
   tap,
 } from 'rxjs';
 import { AuthService } from '../../features/auth/auth.service';
+import { InventoryMovementDialogService } from '../../features/inventory/inventory-movement-dialog.service';
 import { ProductsService } from '../../features/products/products.service';
+import { TransactionType } from '../../models/inventory.model';
 import { ProductDto } from '../../models/product.model';
 import { ConfirmDialogService, ErrorState, LoadingSpinner } from '../../shared';
 
@@ -50,6 +52,7 @@ import { ConfirmDialogService, ErrorState, LoadingSpinner } from '../../shared';
 })
 export class ProductsListPage implements OnInit {
   private readonly productsService = inject(ProductsService);
+  private readonly inventoryDialog = inject(InventoryMovementDialogService);
   private readonly confirmDialog = inject(ConfirmDialogService);
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
@@ -94,6 +97,28 @@ export class ProductsListPage implements OnInit {
 
   onAddProduct(): void {
     void this.router.navigate(['/products/new']);
+  }
+
+  onStockIn(product?: ProductDto): void {
+    this.openInventoryDialog(TransactionType.In, product);
+  }
+
+  onStockOut(product?: ProductDto): void {
+    this.openInventoryDialog(TransactionType.Out, product);
+  }
+
+  private openInventoryDialog(type: TransactionType, product?: ProductDto): void {
+    this.inventoryDialog
+      .open({
+        transactionType: type,
+        productId: product?.id,
+      })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((success) => {
+        if (success) {
+          this.loadProducts();
+        }
+      });
   }
 
   onEditProduct(product: ProductDto): void {

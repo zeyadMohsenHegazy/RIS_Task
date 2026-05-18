@@ -15,6 +15,8 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { debounceTime, distinctUntilChanged, finalize, Subject, switchMap, tap } from 'rxjs';
+import { AuthService } from '../../features/auth/auth.service';
+import { InventoryMovementDialogService } from '../../features/inventory/inventory-movement-dialog.service';
 import { InventoryService } from '../../features/inventory/inventory.service';
 import {
   getTransactionTypeLabel,
@@ -43,7 +45,11 @@ import { ErrorState, LoadingSpinner } from '../../shared';
 })
 export class InventoryHistoryPage implements OnInit {
   private readonly inventoryService = inject(InventoryService);
+  private readonly inventoryDialog = inject(InventoryMovementDialogService);
+  private readonly auth = inject(AuthService);
   private readonly destroyRef = inject(DestroyRef);
+
+  readonly isAdmin = this.auth.isAdmin;
 
   private readonly load$ = new Subject<void>();
 
@@ -83,6 +89,25 @@ export class InventoryHistoryPage implements OnInit {
 
   loadHistory(): void {
     this.load$.next();
+  }
+
+  onStockIn(): void {
+    this.openMovementDialog(TransactionType.In);
+  }
+
+  onStockOut(): void {
+    this.openMovementDialog(TransactionType.Out);
+  }
+
+  private openMovementDialog(type: TransactionType): void {
+    this.inventoryDialog
+      .open({ transactionType: type })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((success) => {
+        if (success) {
+          this.loadHistory();
+        }
+      });
   }
 
   getTypeLabel(type: TransactionType): string {

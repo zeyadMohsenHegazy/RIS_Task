@@ -4,6 +4,18 @@
       <h2 class="inventory-page__title">Inventory History</h2>
       <p class="inventory-page__subtitle">Track stock movements across products</p>
     </div>
+    @if (isAdmin()) {
+      <div class="inventory-page__header-actions">
+        <button mat-stroked-button type="button" (click)="onStockIn()">
+          <mat-icon>add_circle</mat-icon>
+          Stock In
+        </button>
+        <button mat-stroked-button color="warn" type="button" (click)="onStockOut()">
+          <mat-icon>remove_circle</mat-icon>
+          Stock Out
+        </button>
+      </div>
+    }
   </header>
 
   <div class="inventory-page__filters">

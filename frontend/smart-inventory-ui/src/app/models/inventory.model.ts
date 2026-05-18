@@ -37,3 +37,18 @@ export const TRANSACTION_TYPE_FILTER_OPTIONS: TransactionTypeFilterOption[] = [
 export function getTransactionTypeLabel(type: TransactionType): string {
   return type === TransactionType.In ? 'Stock In' : 'Stock Out';
 }
+
+export interface InventoryMovementDto {
+  productId: number;
+  quantity: number;
+}
+
+export interface InventoryMovementDialogData {
+  productId?: number;
+  transactionType?: TransactionType;
+}
+
+export const TRANSACTION_TYPE_FORM_OPTIONS = [
+  { label: 'Stock In', value: TransactionType.In },
+  { label: 'Stock Out', value: TransactionType.Out },
+] as const;
