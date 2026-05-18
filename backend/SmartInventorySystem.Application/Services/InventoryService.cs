@@ -12,15 +12,18 @@ public class InventoryService : IInventoryService
     private readonly IProductRepository _productRepository;
     private readonly IInventoryRepository _inventoryRepository;
     private readonly ICurrentUserService _currentUserService;
+    private readonly ICacheService _cacheService;
 
     public InventoryService(
         IProductRepository productRepository,
         IInventoryRepository inventoryRepository,
-        ICurrentUserService currentUserService)
+        ICurrentUserService currentUserService,
+        ICacheService cacheService)
     {
         _productRepository = productRepository;
         _inventoryRepository = inventoryRepository;
         _currentUserService = currentUserService;
+        _cacheService = cacheService;
     }
 
     public Task<InventoryTransactionDto> StockInAsync(
@@ -88,6 +91,7 @@ public class InventoryService : IInventoryService
         var saved = await _inventoryRepository.GetByIdWithDetailsAsync(transaction.Id, cancellationToken)
             ?? transaction;
 
+        _cacheService.InvalidateProducts();
         return InventoryMapper.ToDto(saved);
     }
 }

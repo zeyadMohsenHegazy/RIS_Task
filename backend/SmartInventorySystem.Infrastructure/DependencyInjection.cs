@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SmartInventorySystem.Infrastructure.Authentication;
+using SmartInventorySystem.Infrastructure.Caching;
 using SmartInventorySystem.Infrastructure.Persistence;
 using SmartInventorySystem.Infrastructure.Repositories;
 
@@ -15,7 +16,7 @@ public static class DependencyInjection
         services.AddPersistence(configuration);
         services.AddRepositories();
         services.AddAuthenticationServices(configuration);
-        services.AddMemoryCache();
+        services.AddCachingServices(configuration);
 
         return services;
     }

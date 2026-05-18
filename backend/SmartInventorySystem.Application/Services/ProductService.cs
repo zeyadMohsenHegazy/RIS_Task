@@ -8,15 +8,29 @@ namespace SmartInventorySystem.Application.Services;
 public class ProductService : IProductService
 {
     private readonly IProductRepository _productRepository;
+    private readonly ICacheService _cacheService;
 
-    public ProductService(IProductRepository productRepository)
+    public ProductService(IProductRepository productRepository, ICacheService cacheService)
     {
         _productRepository = productRepository;
+        _cacheService = cacheService;
     }
 
-    public async Task<PagedResponse<ProductDto>> GetPagedAsync(
+    public Task<PagedResponse<ProductDto>> GetPagedAsync(
         PaginationQuery query,
         CancellationToken cancellationToken = default)
+    {
+        var cacheKey = _cacheService.BuildProductsCacheKey(query);
+
+        return _cacheService.GetOrSetAsync(
+            cacheKey,
+            ct => LoadProductsPageAsync(query, ct),
+            cancellationToken);
+    }
+
+    private async Task<PagedResponse<ProductDto>> LoadProductsPageAsync(
+        PaginationQuery query,
+        CancellationToken cancellationToken)
     {
         var (pageNumber, pageSize) = query.Normalize();
         var search = query.NormalizedSearch();
@@ -45,6 +59,7 @@ public class ProductService : IProductService
         var created = await _productRepository.GetByIdWithWarehouseAsync(product.Id, cancellationToken)
             ?? product;
 
+        _cacheService.InvalidateProducts();
         return ProductMapper.ToDto(created);
     }
 
@@ -72,6 +87,7 @@ public class ProductService : IProductService
         var updated = await _productRepository.GetByIdWithWarehouseAsync(id, cancellationToken)
             ?? product;
 
+        _cacheService.InvalidateProducts();
         return ProductMapper.ToDto(updated);
     }
 
@@ -91,6 +107,7 @@ public class ProductService : IProductService
 
         _productRepository.Delete(product);
         await _productRepository.SaveChangesAsync(cancellationToken);
+        _cacheService.InvalidateProducts();
         return true;
     }
 }
