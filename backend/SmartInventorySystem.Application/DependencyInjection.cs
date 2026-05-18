@@ -10,6 +10,7 @@ public static class DependencyInjection
     {
         services.AddFluentValidationAutoValidation();
         services.AddValidatorsFromAssemblyContaining(typeof(DependencyInjection));
+
         return services;
     }
 }

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SmartInventorySystem.Infrastructure.Authentication;
 using SmartInventorySystem.Infrastructure.Persistence;
 using SmartInventorySystem.Infrastructure.Repositories;
 
@@ -13,10 +14,8 @@ public static class DependencyInjection
     {
         services.AddPersistence(configuration);
         services.AddRepositories();
-
-        // Authentication — register when JWT/auth is implemented
+        services.AddAuthenticationServices(configuration);
         services.AddMemoryCache();
-        // Seed — invoke from host when seed data is implemented
 
         return services;
     }
