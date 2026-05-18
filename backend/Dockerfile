@@ -2,13 +2,12 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY SmartInventorySystem.sln ./
 COPY SmartInventorySystem.API/SmartInventorySystem.API.csproj SmartInventorySystem.API/
 COPY SmartInventorySystem.Application/SmartInventorySystem.Application.csproj SmartInventorySystem.Application/
 COPY SmartInventorySystem.Domain/SmartInventorySystem.Domain.csproj SmartInventorySystem.Domain/
 COPY SmartInventorySystem.Infrastructure/SmartInventorySystem.Infrastructure.csproj SmartInventorySystem.Infrastructure/
 
-RUN dotnet restore SmartInventorySystem.sln
+RUN dotnet restore SmartInventorySystem.API/SmartInventorySystem.API.csproj
 
 COPY . .
 RUN dotnet publish SmartInventorySystem.API/SmartInventorySystem.API.csproj \
