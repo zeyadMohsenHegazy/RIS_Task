@@ -12,3 +12,13 @@ export type {
   UpdateProductDto,
 } from './product.model';
 export type { WarehouseDto } from './warehouse.model';
+export {
+  getTransactionTypeLabel,
+  TRANSACTION_TYPE_FILTER_OPTIONS,
+  TransactionType,
+} from './inventory.model';
+export type {
+  InventoryHistoryQueryParams,
+  InventoryTransactionDto,
+  TransactionTypeFilterOption,
+} from './inventory.model';

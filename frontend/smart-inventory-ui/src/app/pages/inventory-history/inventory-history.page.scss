@@ -1,3 +1,126 @@
-:host {
+.inventory-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  &__subtitle {
+    margin: 0.25rem 0 0;
+    color: var(--sim-text-muted);
+    font-size: 0.9375rem;
+  }
+
+  &__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  &__search {
+    flex: 1;
+    min-width: 220px;
+    max-width: 400px;
+  }
+
+  &__type-filter {
+    min-width: 180px;
+    max-width: 220px;
+  }
+
+  &__table-wrap {
+    position: relative;
+    border-radius: var(--sim-radius);
+    border: 1px solid var(--sim-border);
+    background: var(--sim-surface-card);
+    box-shadow: var(--sim-shadow);
+    overflow: hidden;
+  }
+}
+
+.inventory-table-scroll {
+  overflow-x: auto;
+}
+
+.inventory-table {
+  width: 100%;
+  min-width: 640px;
+
+  &__empty {
+    text-align: center;
+    padding: 2.5rem 1rem !important;
+    color: var(--sim-text-muted);
+  }
+}
+
+.product-name {
   display: block;
+  font-weight: 500;
+}
+
+.product-sku {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--sim-text-muted);
+  margin-top: 0.125rem;
+}
+
+.type-badge {
+  display: inline-block;
+  padding: 0.2rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+
+  &--in {
+    background: color-mix(in srgb, #4caf50 18%, transparent);
+    color: #2e7d32;
+  }
+
+  &--out {
+    background: color-mix(in srgb, #f44336 15%, transparent);
+    color: #c62828;
+  }
+}
+
+.quantity-value {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+
+  &--in {
+    color: #2e7d32;
+  }
+
+  &--out {
+    color: #c62828;
+  }
+}
+
+mat-paginator {
+  border-top: 1px solid var(--sim-border);
+}
+
+@media (max-width: 768px) {
+  .inventory-page__search,
+  .inventory-page__type-filter {
+    max-width: none;
+    width: 100%;
+  }
 }
