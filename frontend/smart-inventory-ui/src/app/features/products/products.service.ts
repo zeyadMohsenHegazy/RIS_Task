@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { dataRequestOptions } from '../../core/http/api-http.options';
+import { dataRequestOptions, mutationRequestOptions } from '../../core/http/api-http.options';
 import { environment } from '../../../environments/environment';
 import { PagedResponse } from '../../models/paged-response.model';
 import {
@@ -36,14 +36,14 @@ export class ProductsService {
   }
 
   create(dto: CreateProductDto): Observable<ProductDto> {
-    return this.http.post<ProductDto>(this.baseUrl, dto);
+    return this.http.post<ProductDto>(this.baseUrl, dto, mutationRequestOptions());
   }
 
   update(id: number, dto: UpdateProductDto): Observable<ProductDto> {
-    return this.http.put<ProductDto>(`${this.baseUrl}/${id}`, dto);
+    return this.http.put<ProductDto>(`${this.baseUrl}/${id}`, dto, mutationRequestOptions());
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, mutationRequestOptions());
   }
 }

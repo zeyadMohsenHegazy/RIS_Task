@@ -1,8 +1,12 @@
 @mixin sim-layout-tokens($is-dark: false) {
   --sim-sidebar-width: 260px;
+  --sim-sidebar-width-collapsed: 72px;
   --sim-toolbar-height: 64px;
   --sim-content-padding: 1.5rem;
   --sim-radius: 12px;
+  --sim-page-bg: #{if($is-dark, #121212, #f5f7fa)};
+  --sim-bg: #{if($is-dark, #0f1419, #eef1f6)};
+  --sim-surface: #{if($is-dark, #1a2332, #ffffff)};
   --sim-border: #{if(
     $is-dark,
     rgba(255, 255, 255, 0.08),

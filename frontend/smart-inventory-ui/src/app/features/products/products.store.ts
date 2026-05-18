@@ -80,7 +80,12 @@ export class ProductsStore {
       },
     });
 
-    this.setupInvalidationEffects();
+    effect(() => {
+      const version = this.cache.productsVersion();
+      if (this.listLoadedVersion >= 0 && version !== this.listLoadedVersion) {
+        this.loadList();
+      }
+    });
   }
 
   setListQuery(partial: Partial<ProductsListQuery>): void {
@@ -90,6 +95,18 @@ export class ProductsStore {
 
   loadList(): void {
     this.listLoad$.next();
+  }
+
+  /** Avoid duplicate GET when navigating right after catalog invalidation. */
+  ensureListLoaded(): void {
+    if (this.listLoading()) {
+      return;
+    }
+
+    const version = this.cache.productsVersion();
+    if (this.listState().status === 'idle' || this.listLoadedVersion !== version) {
+      this.loadList();
+    }
   }
 
   loadPicker(force = false): void {
@@ -104,23 +121,13 @@ export class ProductsStore {
     this.pickerLoad$.next();
   }
 
-  invalidate(): void {
-    this.cache.invalidateProducts();
+  /** Light invalidation — refreshes product lists only (not dashboard aggregates). */
+  invalidateCatalog(): void {
+    this.cache.invalidateProductCatalog();
   }
 
-  private setupInvalidationEffects(): void {
-    effect(() => {
-      const version = this.cache.productsVersion();
-      if (this.listLoadedVersion >= 0 && version !== this.listLoadedVersion) {
-        this.loadList();
-      }
-    });
-
-    effect(() => {
-      const version = this.cache.productsVersion();
-      if (this.pickerLoadedVersion >= 0 && version !== this.pickerLoadedVersion) {
-        this.pickerLoad$.next();
-      }
-    });
+  /** @deprecated Use invalidateCatalog */
+  invalidate(): void {
+    this.invalidateCatalog();
   }
 }

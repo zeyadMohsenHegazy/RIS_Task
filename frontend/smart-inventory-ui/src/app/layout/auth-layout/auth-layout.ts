@@ -9,6 +9,8 @@ import { RouterOutlet } from '@angular/router';
     :host {
       display: block;
       min-height: 100vh;
+      background: var(--sim-page-bg, #f5f7fa);
+      color: inherit;
     }
   `,
 })

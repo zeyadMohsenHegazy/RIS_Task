@@ -10,10 +10,19 @@ export class CacheInvalidationService {
   readonly dashboardVersion = signal(0);
   readonly inventoryVersion = signal(0);
 
-  /** Product catalog or quantities changed (create/update/delete/stock movement). */
-  invalidateProducts(): void {
+  /** Product catalog changed (create/update/delete). Lists refresh; dashboard waits until opened. */
+  invalidateProductCatalog(): void {
     this.productsVersion.update((v) => v + 1);
+  }
+
+  /** Dashboard totals / low-stock (expensive aggregate). */
+  invalidateDashboardMetrics(): void {
     this.dashboardVersion.update((v) => v + 1);
+  }
+
+  /** @deprecated Prefer invalidateProductCatalog */
+  invalidateProducts(): void {
+    this.invalidateProductCatalog();
   }
 
   invalidateWarehouses(): void {
@@ -21,12 +30,13 @@ export class CacheInvalidationService {
   }
 
   invalidateDashboard(): void {
-    this.dashboardVersion.update((v) => v + 1);
+    this.invalidateDashboardMetrics();
   }
 
-  /** New inventory transaction recorded. */
+  /** New inventory transaction — refresh history, product quantities, and dashboard metrics. */
   invalidateInventory(): void {
     this.inventoryVersion.update((v) => v + 1);
-    this.invalidateProducts();
+    this.invalidateProductCatalog();
+    this.invalidateDashboardMetrics();
   }
 }

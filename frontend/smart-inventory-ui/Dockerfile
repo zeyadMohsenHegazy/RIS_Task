@@ -17,7 +17,7 @@ RUN apk add --no-cache sed
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY public/env.js.template /etc/nginx/templates/env.js.template
 COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
+RUN sed -i 's/\r$//' /docker-entrypoint.sh && chmod +x /docker-entrypoint.sh
 
 COPY --from=build /app/dist/smart-inventory-ui/browser /usr/share/nginx/html
 

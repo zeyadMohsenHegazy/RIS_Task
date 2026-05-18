@@ -165,11 +165,12 @@ export class ProductFormPage implements OnInit {
       )
       .subscribe({
         next: () => {
-          this.productsStore.invalidate();
           this.notifications.success(
             this.isEditMode() ? 'Product updated successfully.' : 'Product created successfully.',
           );
-          void this.router.navigate(['/products']);
+          void this.router.navigate(['/products']).then(() => {
+            this.productsStore.invalidateCatalog();
+          });
         },
       });
   }

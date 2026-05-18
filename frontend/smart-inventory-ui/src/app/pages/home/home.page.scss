@@ -1,0 +1,129 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 1200px;
+
+  &__welcome {
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--mat-sys-primary, #3f51b5) 12%, var(--sim-surface-card)),
+      var(--sim-surface-card)
+    );
+    border: 1px solid var(--sim-border);
+    box-shadow: var(--sim-shadow);
+  }
+
+  &__welcome-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 0.5rem 0;
+  }
+
+  &__greeting {
+    margin: 0 0 0.25rem;
+    font-size: 0.875rem;
+    color: var(--sim-text-muted);
+  }
+
+  &__title {
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  &__subtitle {
+    margin: 0;
+    max-width: 36rem;
+    color: var(--sim-text-muted);
+    line-height: 1.5;
+  }
+
+  &__role-badge {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: color-mix(in srgb, var(--mat-sys-primary, #3f51b5) 15%, transparent);
+    color: var(--mat-sys-primary, #3f51b5);
+  }
+
+  &__welcome-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    opacity: 0.35;
+    color: var(--mat-sys-primary, #3f51b5);
+    flex-shrink: 0;
+  }
+
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+
+  &__section-title {
+    margin: 0.5rem 0 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  &__quick-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  &__link-card {
+    border: 1px solid var(--sim-border);
+    background: var(--sim-surface-card);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+      box-shadow: var(--sim-shadow);
+      transform: translateY(-2px);
+    }
+
+    mat-card-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0;
+      flex: 1;
+      font-size: 0.875rem;
+      color: var(--sim-text-muted);
+      line-height: 1.45;
+    }
+
+    a {
+      align-self: flex-start;
+      margin-top: 0.5rem;
+    }
+  }
+
+  &__link-icon {
+    color: var(--mat-sys-primary, #3f51b5);
+    margin-bottom: 0.25rem;
+  }
+}
+
+@media (max-width: 599px) {
+  .home__welcome-icon {
+    display: none;
+  }
+}

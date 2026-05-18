@@ -6,13 +6,6 @@ export const AUTH_ROUTES: Routes = [
     path: 'login',
     canActivate: [guestGuard],
     loadComponent: () =>
-      import('../layout/auth-layout/auth-layout').then((m) => m.AuthLayout),
-    children: [
-      {
-        path: '',
-        loadComponent: () =>
-          import('../pages/login/login.page').then((m) => m.LoginPage),
-      },
-    ],
+      import('../pages/login/login.page').then((m) => m.LoginPage),
   },
 ];

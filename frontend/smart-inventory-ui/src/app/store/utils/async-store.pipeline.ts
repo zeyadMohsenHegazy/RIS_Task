@@ -1,5 +1,5 @@
 import { WritableSignal } from '@angular/core';
-import { Observable, Subject, Subscription, finalize, switchMap, tap } from 'rxjs';
+import { debounceTime, Observable, Subject, Subscription, finalize, switchMap, tap } from 'rxjs';
 import {
   AsyncState,
   errorState,
@@ -23,6 +23,7 @@ export function connectAsyncStorePipeline<T>(
 
   return load$
     .pipe(
+      debounceTime(0),
       tap(() => state.set(loadingState(state().data))),
       switchMap(() => request().pipe(finalize(() => undefined))),
     )

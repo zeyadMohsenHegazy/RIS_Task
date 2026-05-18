@@ -1,14 +1,18 @@
+/** Matches Back-End `LoginRequestDto` (Username, Password) — sent as camelCase JSON. */
 export interface LoginRequest {
-  email: string;
+  username: string;
   password: string;
 }
 
 export interface LoginResponse {
-  token: string;
+  token?: string;
+  /** PascalCase fallback when API serializes with default naming. */
+  Token?: string;
 }
 
 export interface AuthUser {
   id: string;
+  username: string;
   email: string;
   roles: string[];
 }

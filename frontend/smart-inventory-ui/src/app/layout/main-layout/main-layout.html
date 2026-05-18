@@ -1,19 +1,26 @@
-<mat-sidenav-container class="main-layout">
+<mat-sidenav-container
+  class="main-layout"
+  [class.main-layout--collapsed]="sidebarCollapsed()"
+  autosize
+>
   <mat-sidenav
     #drawer
     class="main-layout__sidenav"
     [mode]="sidenavMode()"
     [opened]="sidenavMode() === 'side'"
-    [fixedInViewport]="isHandset()"
     [disableClose]="false"
   >
-    <app-sidebar (navigate)="closeSidenavOnMobile()" />
+    <app-sidebar
+      [collapsed]="sidebarCollapsed() && !isHandset()"
+      (navigate)="closeSidenavOnMobile()"
+      (toggleCollapse)="toggleSidebarCollapse()"
+    />
   </mat-sidenav>
 
   <mat-sidenav-content class="main-layout__content">
-    <app-top-navbar
+    <app-navbar
       [pageTitle]="pageTitle()"
-      [showMenuButton]="showMenuButton()"
+      [showMenuButton]="showMenuButton() || !isHandset()"
       (menuToggle)="toggleSidenav()"
     />
     <main class="main-layout__page">

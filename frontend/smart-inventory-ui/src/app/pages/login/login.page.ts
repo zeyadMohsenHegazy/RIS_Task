@@ -9,7 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { LoadingButton } from '../../shared';
 import { NotificationService } from '../../core/notifications/notification.service';
 import { AuthService } from '../../features/auth/auth.service';
-import { environment } from '../../../environments/environment';
+import { BRAND } from '../../core/brand.config';
+import { sanitizeReturnUrl } from '../../core/navigation/return-url.util';
 
 @Component({
   selector: 'app-login-page',
@@ -32,16 +33,16 @@ export class LoginPage {
   private readonly route = inject(ActivatedRoute);
   private readonly notifications = inject(NotificationService);
 
-  readonly appName = environment.appName;
+  readonly brand = BRAND;
   readonly hidePassword = signal(true);
 
   readonly form = this.fb.nonNullable.group({
-    email: ['', [Validators.required, Validators.email]],
+    username: ['', [Validators.required]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
-  get email() {
-    return this.form.controls.email;
+  get username() {
+    return this.form.controls.username;
   }
 
   get password() {
@@ -54,19 +55,35 @@ export class LoginPage {
       return;
     }
 
-    const { email, password } = this.form.getRawValue();
+    const { username, password } = this.form.getRawValue();
 
     this.auth
-      .login({ email, password })
+      .login({ username, password })
       .subscribe({
         next: () => {
-          this.notifications.success('Welcome back!', 'Login successful');
-          const returnUrl =
-            this.route.snapshot.queryParamMap.get('returnUrl') ?? '/dashboard';
-          void this.router.navigateByUrl(returnUrl);
+          if (!this.auth.isLoggedIn()) {
+            this.notifications.error(
+              'Sign-in succeeded but the session could not be started. Try again.',
+              'Login failed',
+            );
+            return;
+          }
+
+          const returnUrl = sanitizeReturnUrl(
+            this.route.snapshot.queryParamMap.get('returnUrl'),
+          );
+
+          void this.router
+            .navigateByUrl(returnUrl, { replaceUrl: true })
+            .then((navigated) => {
+              if (!navigated) {
+                void this.router.navigate(['/home'], { replaceUrl: true });
+              }
+              this.notifications.success('Welcome back!', 'Login successful');
+            });
         },
         error: () => {
-          this.notifications.error('Invalid email or password.', 'Login failed');
+          this.notifications.error('Invalid username or password.', 'Login failed');
         },
       });
   }

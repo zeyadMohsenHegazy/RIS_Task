@@ -6,14 +6,12 @@ export type ThemeMode = 'light' | 'dark';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  readonly isDark = signal(true);
+  readonly isDark = signal(false);
   readonly mode = computed<ThemeMode>(() => (this.isDark() ? 'dark' : 'light'));
 
   constructor() {
     const saved = localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode | null;
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isDark =
-      saved === 'dark' ? true : saved === 'light' ? false : prefersDark;
+    const isDark = saved === 'dark';
     this.applyTheme(isDark);
   }
 

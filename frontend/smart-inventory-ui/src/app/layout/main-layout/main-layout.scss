@@ -1,23 +1,32 @@
 .main-layout {
   height: 100vh;
-  background: transparent;
+  min-height: 100vh;
+  background-color: var(--sim-page-bg);
 
   &__sidenav {
     width: var(--sim-sidebar-width);
     border: none;
     box-shadow: var(--sim-shadow);
+    background: var(--sim-surface-sidebar);
+  }
+
+  &--collapsed &__sidenav {
+    width: var(--sim-sidebar-width-collapsed);
   }
 
   &__content {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: var(--sim-page-bg);
   }
 
   &__page {
     flex: 1;
     padding: var(--sim-content-padding);
     overflow: auto;
+    background-color: var(--sim-page-bg);
+    color: inherit;
   }
 }
 

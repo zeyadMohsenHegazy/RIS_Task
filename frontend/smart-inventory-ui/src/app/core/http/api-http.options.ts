@@ -1,9 +1,27 @@
 import { HttpContext } from '@angular/common/http';
-import { SKIP_GLOBAL_LOADER } from './http-context.tokens';
+import {
+  SKIP_GLOBAL_ERROR_HANDLING,
+  SKIP_GLOBAL_LOADER,
+} from './http-context.tokens';
 
-/** HTTP options for data reads that show page-level skeletons (skip global overlay). */
-export function dataRequestOptions(): { context: HttpContext } {
+/** GETs that show page skeletons — skip the full-screen overlay. */
+export function dataRequestOptions() {
   return {
     context: new HttpContext().set(SKIP_GLOBAL_LOADER, true),
+  };
+}
+
+/** Mutations with local button spinners — skip the full-screen overlay. */
+export function mutationRequestOptions() {
+  return {
+    context: new HttpContext().set(SKIP_GLOBAL_LOADER, true),
+  };
+}
+
+export function silentRequestOptions() {
+  return {
+    context: new HttpContext()
+      .set(SKIP_GLOBAL_LOADER, true)
+      .set(SKIP_GLOBAL_ERROR_HANDLING, true),
   };
 }

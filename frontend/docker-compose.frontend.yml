@@ -8,7 +8,8 @@
 services:
   frontend:
     build:
-      context: ./smart-inventory-ui
+      # Resolved from Back-End/ when using: docker compose -f Back-End/... -f Front-End/...
+      context: ../Front-End/smart-inventory-ui
       dockerfile: Dockerfile
     container_name: smartinventory-frontend
     ports:

@@ -1,9 +1,9 @@
-<mat-toolbar class="top-navbar">
+<mat-toolbar class="navbar">
   @if (showMenuButton()) {
     <button
       mat-icon-button
       type="button"
-      class="top-navbar__menu"
+      class="navbar__menu"
       (click)="onMenuClick()"
       aria-label="Toggle navigation"
     >
@@ -11,9 +11,19 @@
     </button>
   }
 
-  <h1 class="top-navbar__title">{{ pageTitle() }}</h1>
+  <a routerLink="/home" class="navbar__logo-link" [attr.aria-label]="brand.logoAlt">
+    <img
+      [src]="brand.logoUrl"
+      [alt]="brand.logoAlt"
+      class="navbar__logo"
+      width="160"
+      height="40"
+    />
+  </a>
+  <span class="navbar__divider" aria-hidden="true">/</span>
+  <h1 class="navbar__page-title">{{ pageTitle() }}</h1>
 
-  <span class="top-navbar__spacer"></span>
+  <span class="navbar__spacer"></span>
 
   <button
     mat-icon-button
@@ -25,20 +35,25 @@
   </button>
 
   @if (auth.currentUser(); as user) {
+    <div class="navbar__user-chip">
+      <mat-icon class="navbar__user-icon">person</mat-icon>
+      <span class="navbar__user-name">{{ user.username }}</span>
+      <span class="navbar__user-role">{{ displayRole() }}</span>
+    </div>
+
     <button
       mat-icon-button
       type="button"
+      class="navbar__user-menu-btn"
       [matMenuTriggerFor]="profileMenu"
       aria-label="User profile menu"
     >
       <mat-icon>account_circle</mat-icon>
     </button>
     <mat-menu #profileMenu="matMenu" xPosition="before">
-      <div class="top-navbar__menu-header">
-        <span class="top-navbar__menu-email">{{ user.email }}</span>
-        @if (user.roles.length) {
-          <span class="top-navbar__menu-roles">{{ user.roles.join(', ') }}</span>
-        }
+      <div class="navbar__menu-header">
+        <span class="navbar__menu-name">{{ user.username }}</span>
+        <span class="navbar__menu-roles">{{ displayRole() }}</span>
       </div>
       <button mat-menu-item type="button" (click)="logout()">
         <mat-icon>logout</mat-icon>

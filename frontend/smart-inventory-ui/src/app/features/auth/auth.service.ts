@@ -18,6 +18,8 @@ import {
 const TOKEN_STORAGE_KEY = 'sim_access_token';
 const ROLE_CLAIM =
   'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
+const NAME_CLAIM =
+  'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -33,12 +35,16 @@ export class AuthService {
   readonly roles = computed(() => this.user()?.roles ?? []);
   readonly isAdmin = computed(() => this.hasRole('Admin'));
   readonly isEmployee = computed(() => this.hasRole('Employee'));
-  readonly isAuthenticated = computed(
-    () => !!this.token() && !this.isTokenExpired(this.token()!),
-  );
+  readonly isAuthenticated = computed(() => this.isLoggedIn());
 
   constructor() {
     this.restoreSession();
+  }
+
+  /** Reliable check for route guards (not only the computed signal). */
+  isLoggedIn(): boolean {
+    const accessToken = this.token();
+    return !!accessToken && !this.isTokenExpired(accessToken);
   }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
@@ -51,7 +57,12 @@ export class AuthService {
       })
       .pipe(
         tap({
-          next: (response) => this.setSession(response.token),
+          next: (response) => {
+            const token = this.extractToken(response);
+            if (token) {
+              this.setSession(token);
+            }
+          },
           finalize: () => this.loading.set(false),
         }),
       );
@@ -84,14 +95,22 @@ export class AuthService {
     }
 
     const roles = this.extractRoles(payload);
-    const email =
-      payload.email ?? payload.unique_name ?? payload.sub ?? 'unknown';
+    const username = String(
+      payload.unique_name ??
+        payload[NAME_CLAIM] ??
+        payload['name'] ??
+        payload.email ??
+        payload.sub ??
+        'User',
+    );
+    const email = String(payload.email ?? username);
 
     localStorage.setItem(TOKEN_STORAGE_KEY, accessToken);
     this.token.set(accessToken);
     this.user.set({
-      id: payload.sub ?? email,
-      email: String(email),
+      id: payload.sub ?? username,
+      username,
+      email,
       roles,
     });
   }
@@ -130,6 +149,11 @@ export class AuthService {
       return [];
     }
     return (Array.isArray(raw) ? raw : [raw]).map((role) => String(role));
+  }
+
+  private extractToken(response: LoginResponse & { Token?: string }): string | null {
+    const token = response.token ?? response.Token;
+    return typeof token === 'string' && token.length > 0 ? token : null;
   }
 
   private isTokenExpired(accessToken: string): boolean {

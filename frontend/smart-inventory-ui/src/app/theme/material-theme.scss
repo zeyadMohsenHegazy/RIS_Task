@@ -80,6 +80,15 @@ html {
   @include typography.sim-typography-base;
 }
 
+html.light-theme,
+html.dark-theme {
+  body,
+  app-root {
+    background-color: var(--sim-page-bg);
+    color: inherit;
+  }
+}
+
 html.light-theme {
   @include apply-light-theme;
 }

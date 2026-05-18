@@ -24,14 +24,21 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401 && isApiRequest && !isLoginRequest) {
+      if (error.status === 401 && isApiRequest && !isLoginRequest && token) {
+        const returnUrl =
+          router.url.startsWith('/login') || router.url === '/'
+            ? undefined
+            : router.url;
+
         auth.logout(false);
         notifications.error(
           'Your session has expired. Please sign in again.',
           'Unauthorized',
         );
+
         void router.navigate(['/login'], {
-          queryParams: { returnUrl: router.url },
+          queryParams: returnUrl ? { returnUrl } : {},
+          replaceUrl: true,
         });
       }
       return throwError(() => error);

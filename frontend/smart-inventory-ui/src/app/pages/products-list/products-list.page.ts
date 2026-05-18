@@ -78,7 +78,7 @@ export class ProductsListPage implements OnInit {
     bindDebouncedSearch(this.searchControl, this.destroyRef, (search) => {
       this.productsStore.setListQuery({ pageNumber: 1, search });
     });
-    this.productsStore.loadList();
+    this.productsStore.ensureListLoaded();
   }
 
   onPageChange(event: PageEvent): void {
@@ -127,7 +127,7 @@ export class ProductsListPage implements OnInit {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
-        next: () => this.productsStore.invalidate(),
+        next: () => this.productsStore.invalidateCatalog(),
       });
   }
 }
