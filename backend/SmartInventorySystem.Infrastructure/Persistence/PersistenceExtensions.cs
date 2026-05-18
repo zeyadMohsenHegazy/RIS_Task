@@ -15,7 +15,8 @@ public static class PersistenceExtensions
                 "Connection string 'DefaultConnection' was not found.");
 
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(connectionString));
+            options.UseSqlServer(connectionString, sqlOptions =>
+                sqlOptions.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.GetName().Name)));
 
         return services;
     }
