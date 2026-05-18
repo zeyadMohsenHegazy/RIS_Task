@@ -2,7 +2,7 @@
 
 <mat-dialog-content class="movement-dialog__content">
   @if (productsLoading()) {
-    <app-loading-spinner message="Loading products..." />
+    <app-form-skeleton [fieldCount]="3" />
   } @else if (products().length === 0) {
     <p class="movement-dialog__empty">No products available. Create a product first.</p>
   } @else {
@@ -73,17 +73,14 @@
 
 <mat-dialog-actions align="end">
   <button mat-button type="button" (click)="cancel()" [disabled]="submitting()">Cancel</button>
-  <button
-    mat-flat-button
+  <app-loading-button
     [color]="transactionTypeControl.value === transactionType.Out ? 'warn' : 'primary'"
     type="button"
+    [loading]="submitting()"
+    loadingLabel="Processing..."
+    [disabled]="productsLoading() || products().length === 0"
     (click)="onSubmit()"
-    [disabled]="submitting() || productsLoading() || products().length === 0"
   >
-    @if (submitting()) {
-      <mat-spinner diameter="20" />
-    } @else {
-      Confirm {{ dialogTitle() }}
-    }
-  </button>
+    Confirm {{ dialogTitle() }}
+  </app-loading-button>
 </mat-dialog-actions>

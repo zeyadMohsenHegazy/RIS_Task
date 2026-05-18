@@ -6,8 +6,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ToastrService } from 'ngx-toastr';
+import { LoadingButton } from '../../shared';
+import { NotificationService } from '../../core/notifications/notification.service';
 import { AuthService } from '../../features/auth/auth.service';
 import { environment } from '../../../environments/environment';
 
@@ -20,7 +20,7 @@ import { environment } from '../../../environments/environment';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatProgressSpinnerModule,
+    LoadingButton,
   ],
   templateUrl: './login.page.html',
   styleUrl: './login.page.scss',
@@ -30,7 +30,7 @@ export class LoginPage {
   readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly toastr = inject(ToastrService);
+  private readonly notifications = inject(NotificationService);
 
   readonly appName = environment.appName;
   readonly hidePassword = signal(true);
@@ -60,13 +60,13 @@ export class LoginPage {
       .login({ email, password })
       .subscribe({
         next: () => {
-          this.toastr.success('Welcome back!', 'Login successful');
+          this.notifications.success('Welcome back!', 'Login successful');
           const returnUrl =
             this.route.snapshot.queryParamMap.get('returnUrl') ?? '/dashboard';
           void this.router.navigateByUrl(returnUrl);
         },
         error: () => {
-          this.toastr.error('Invalid email or password.', 'Login failed');
+          this.notifications.error('Invalid email or password.', 'Login failed');
         },
       });
   }

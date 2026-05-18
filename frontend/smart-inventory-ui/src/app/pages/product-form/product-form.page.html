@@ -19,7 +19,7 @@
       (retry)="retryLoad()"
     />
   } @else if (pageLoading()) {
-    <app-loading-spinner message="Loading form..." />
+    <app-form-skeleton [fieldCount]="5" />
   } @else {
     <mat-card class="product-form-card">
       <mat-card-content>
@@ -92,13 +92,14 @@
             <a mat-button type="button" routerLink="/products" [disabled]="submitting()">
               Cancel
             </a>
-            <button mat-flat-button color="primary" type="submit" [disabled]="submitting()">
-              @if (submitting()) {
-                <mat-spinner diameter="20" />
-              } @else {
-                {{ isEditMode() ? 'Save changes' : 'Create product' }}
-              }
-            </button>
+            <app-loading-button
+              type="submit"
+              color="primary"
+              [loading]="submitting()"
+              [loadingLabel]="isEditMode() ? 'Saving...' : 'Creating...'"
+            >
+              {{ isEditMode() ? 'Save changes' : 'Create product' }}
+            </app-loading-button>
           </div>
         </form>
       </mat-card-content>

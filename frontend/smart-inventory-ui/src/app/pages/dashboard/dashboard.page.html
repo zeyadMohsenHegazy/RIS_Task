@@ -18,17 +18,20 @@
       (retry)="loadDashboard()"
     />
   } @else {
-    <div class="dashboard__grid">
-      @for (card of statCards(); track card.label) {
-        <app-stat-card
-          [label]="card.label"
-          [value]="card.value"
-          [icon]="card.icon"
-          [accent]="card.accent"
-          [loading]="card.loading"
-        />
-      }
-    </div>
+    @if (loading()) {
+      <app-stat-cards-skeleton [count]="4" />
+    } @else {
+      <div class="dashboard__grid">
+        @for (card of statCards(); track card.label) {
+          <app-stat-card
+            [label]="card.label"
+            [value]="card.value"
+            [icon]="card.icon"
+            [accent]="card.accent"
+          />
+        }
+      </div>
+    }
 
   <mat-card class="dashboard__panel">
     <mat-card-header>
@@ -38,17 +41,12 @@
       </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      @if (loading()) {
-        <app-loading-spinner message="Loading low stock products..." />
-      } @else if (lowStockData().length === 0) {
-        <p class="dashboard__empty">No low stock products — inventory levels look healthy.</p>
-      } @else {
-        <app-data-table
-          [columns]="lowStockColumns"
-          [data]="lowStockData()"
-          emptyMessage="No low stock products"
-        />
-      }
+      <app-data-table
+        [columns]="lowStockColumns"
+        [data]="lowStockData()"
+        [loading]="loading()"
+        emptyMessage="No low stock products — inventory levels look healthy."
+      />
     </mat-card-content>
   </mat-card>
   }

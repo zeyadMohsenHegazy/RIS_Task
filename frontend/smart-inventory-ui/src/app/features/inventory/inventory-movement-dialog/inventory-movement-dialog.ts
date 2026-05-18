@@ -1,4 +1,5 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormBuilder,
@@ -16,12 +17,10 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from '../../../core/notifications/notification.service';
 import { finalize } from 'rxjs';
-import { ProductsService } from '../../products/products.service';
-import { ProductDto } from '../../../models/product.model';
+import { ProductsStore } from '../../products/products.store';
 import {
   InventoryMovementDialogData,
   InventoryMovementDto,
@@ -29,8 +28,9 @@ import {
   TransactionType,
   getTransactionTypeLabel,
 } from '../../../models/inventory.model';
+import { CacheInvalidationService } from '../../../store/cache-invalidation.service';
 import { InventoryService } from '../inventory.service';
-import { LoadingSpinner } from '../../../shared';
+import { FormSkeleton, LoadingButton } from '../../../shared';
 
 @Component({
   selector: 'app-inventory-movement-dialog',
@@ -42,8 +42,8 @@ import { LoadingSpinner } from '../../../shared';
     MatInputModule,
     MatSelectModule,
     MatIconModule,
-    MatProgressSpinnerModule,
-    LoadingSpinner,
+    FormSkeleton,
+    LoadingButton,
   ],
   templateUrl: './inventory-movement-dialog.html',
   styleUrl: './inventory-movement-dialog.scss',
@@ -51,17 +51,20 @@ import { LoadingSpinner } from '../../../shared';
 export class InventoryMovementDialog implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly inventoryService = inject(InventoryService);
-  private readonly productsService = inject(ProductsService);
-  private readonly toastr = inject(ToastrService);
+  private readonly productsStore = inject(ProductsStore);
+  private readonly cache = inject(CacheInvalidationService);
+  private readonly notifications = inject(NotificationService);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly dialogRef = inject(MatDialogRef<InventoryMovementDialog, boolean>);
   readonly data = inject<InventoryMovementDialogData>(MAT_DIALOG_DATA);
 
-  readonly products = signal<ProductDto[]>([]);
-  readonly productsLoading = signal(true);
   readonly submitting = signal(false);
 
   readonly typeOptions = TRANSACTION_TYPE_FORM_OPTIONS;
   readonly transactionType = TransactionType;
+
+  readonly products = this.productsStore.pickerProducts;
+  readonly productsLoading = this.productsStore.pickerLoading;
 
   readonly form = this.fb.nonNullable.group({
     productId: [
@@ -85,15 +88,31 @@ export class InventoryMovementDialog implements OnInit {
     return type === TransactionType.Out ? 'Stock Out' : 'Stock In';
   });
 
-  ngOnInit(): void {
-    this.loadProducts();
+  constructor() {
+    effect(() => {
+      const products = this.products();
+      if (products.length === 0) {
+        return;
+      }
+      const preferredId = this.data.productId;
+      if (preferredId && products.some((p) => p.id === preferredId)) {
+        this.form.patchValue({ productId: preferredId }, { emitEvent: false });
+      } else if (this.form.controls.productId.value < 1) {
+        this.form.patchValue({ productId: products[0].id }, { emitEvent: false });
+      }
+    });
+  }
 
-    this.form.controls.productId.valueChanges.subscribe(() =>
-      this.form.controls.quantity.updateValueAndValidity(),
-    );
-    this.form.controls.transactionType.valueChanges.subscribe(() =>
-      this.form.controls.quantity.updateValueAndValidity(),
-    );
+  ngOnInit(): void {
+    this.productsStore.loadPicker();
+
+    this.form.controls.productId.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.form.controls.quantity.updateValueAndValidity());
+
+    this.form.controls.transactionType.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.form.controls.quantity.updateValueAndValidity());
   }
 
   onSubmit(): void {
@@ -113,19 +132,19 @@ export class InventoryMovementDialog implements OnInit {
         : this.inventoryService.stockOut(dto);
 
     request$
-      .pipe(finalize(() => this.submitting.set(false)))
+      .pipe(
+        finalize(() => this.submitting.set(false)),
+        takeUntilDestroyed(this.destroyRef),
+      )
       .subscribe({
         next: (result) => {
           const label = getTransactionTypeLabel(transactionType);
-          this.toastr.success(
+          this.notifications.success(
             `${label}: ${result.quantity} units for ${result.productName}`,
             'Inventory updated',
           );
+          this.cache.invalidateInventory();
           this.dialogRef.close(true);
-        },
-        error: (err) => {
-          const message = err?.error?.message ?? 'Failed to record inventory movement.';
-          this.toastr.error(message);
         },
       });
   }
@@ -144,26 +163,6 @@ export class InventoryMovementDialog implements OnInit {
 
   get quantity() {
     return this.form.controls.quantity;
-  }
-
-  private loadProducts(): void {
-    this.productsLoading.set(true);
-    this.productsService
-      .getProducts({ pageNumber: 1, pageSize: 100 })
-      .pipe(finalize(() => this.productsLoading.set(false)))
-      .subscribe({
-        next: (response) => {
-          this.products.set(response.items);
-          if (this.data.productId && response.items.some((p) => p.id === this.data.productId)) {
-            this.form.patchValue({ productId: this.data.productId });
-          } else if (!this.data.productId && response.items.length > 0) {
-            this.form.patchValue({ productId: response.items[0].id });
-          }
-        },
-        error: () => {
-          this.toastr.error('Failed to load products for selection.');
-        },
-      });
   }
 
   private quantityValidator(): ValidatorFn {

@@ -54,11 +54,12 @@
       (retry)="loadProducts()"
     />
   } @else {
-    <div class="products-page__table-wrap">
+    <div class="products-page__table-wrap" [class.products-page__table-wrap--loading]="loading()">
       @if (loading()) {
-        <app-loading-spinner [overlay]="true" message="Loading products..." />
+        <app-table-skeleton [columns]="displayedColumns().length" [rows]="8" />
       }
 
+      <div class="products-page__table" [class.products-page__table--hidden]="loading()">
       <table
         mat-table
         [dataSource]="products()"
@@ -147,6 +148,7 @@
           </td>
         </tr>
       </table>
+      </div>
 
       <mat-paginator
         [length]="totalCount()"

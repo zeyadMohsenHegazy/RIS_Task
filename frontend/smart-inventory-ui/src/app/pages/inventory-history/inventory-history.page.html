@@ -53,12 +53,15 @@
       (retry)="loadHistory()"
     />
   } @else {
-    <div class="inventory-page__table-wrap">
+    <div class="inventory-page__table-wrap" [class.inventory-page__table-wrap--loading]="loading()">
       @if (loading()) {
-        <app-loading-spinner [overlay]="true" message="Loading transactions..." />
+        <app-table-skeleton [columns]="displayedColumns.length" [rows]="8" />
       }
 
-      <div class="inventory-table-scroll">
+      <div
+        class="inventory-table-scroll"
+        [class.inventory-table-scroll--hidden]="loading()"
+      >
         <table
           mat-table
           [dataSource]="transactions()"

@@ -1,9 +1,13 @@
-<div class="data-table">
+<div class="data-table" [class.data-table--loading]="loading()">
   @if (loading()) {
-    <app-loading-spinner [overlay]="true" message="Loading data..." />
+    <app-table-skeleton
+      [columns]="columns().length"
+      [rows]="6"
+      class="data-table__skeleton"
+    />
   }
 
-  <div class="data-table__scroll">
+  <div class="data-table__scroll" [class.data-table__scroll--hidden]="loading()">
     <table mat-table [dataSource]="data()" matSort class="data-table__table">
       @for (column of columns(); track column.key) {
         <ng-container [matColumnDef]="column.key">

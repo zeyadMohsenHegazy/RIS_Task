@@ -6,7 +6,7 @@
     <div class="stat-card__body">
       <span class="stat-card__label">{{ label() }}</span>
       @if (loading()) {
-        <app-loading-spinner [diameter]="28" />
+        <app-skeleton-block width="55%" height="28px" />
       } @else {
         <span class="stat-card__value">{{ value() ?? '—' }}</span>
       }

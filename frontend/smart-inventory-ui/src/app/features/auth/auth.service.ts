@@ -1,9 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import {
+  SKIP_GLOBAL_ERROR_HANDLING,
+  SKIP_GLOBAL_LOADER,
+} from '../../core/http/http-context.tokens';
 import {
   AuthUser,
   JwtPayload,
@@ -40,7 +44,11 @@ export class AuthService {
   login(credentials: LoginRequest): Observable<LoginResponse> {
     this.loading.set(true);
     return this.http
-      .post<LoginResponse>(`${environment.apiUrl}/auth/login`, credentials)
+      .post<LoginResponse>(`${environment.apiUrl}/auth/login`, credentials, {
+        context: new HttpContext()
+          .set(SKIP_GLOBAL_ERROR_HANDLING, true)
+          .set(SKIP_GLOBAL_LOADER, true),
+      })
       .pipe(
         tap({
           next: (response) => this.setSession(response.token),

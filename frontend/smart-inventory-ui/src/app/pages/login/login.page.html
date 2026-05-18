@@ -45,19 +45,15 @@
           }
         </mat-form-field>
 
-        <button
-          mat-flat-button
-          color="primary"
+        <app-loading-button
           type="submit"
+          color="primary"
           class="submit-btn full-width"
-          [disabled]="auth.isLoading()"
+          [loading]="auth.isLoading()"
+          loadingLabel="Signing in..."
         >
-          @if (auth.isLoading()) {
-            <mat-spinner diameter="20" />
-          } @else {
-            Sign in
-          }
-        </button>
+          Sign in
+        </app-loading-button>
       </form>
     </mat-card-content>
   </mat-card>

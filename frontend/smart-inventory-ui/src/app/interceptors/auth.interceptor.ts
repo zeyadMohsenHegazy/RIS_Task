@@ -1,15 +1,15 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { catchError, throwError } from 'rxjs';
+import { NotificationService } from '../core/notifications/notification.service';
 import { AuthService } from '../features/auth/auth.service';
 import { environment } from '../../environments/environment';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(AuthService);
   const router = inject(Router);
-  const toastr = inject(ToastrService);
+  const notifications = inject(NotificationService);
 
   const token = auth.getToken();
   const isApiRequest = req.url.startsWith(environment.apiUrl);
@@ -26,7 +26,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401 && isApiRequest && !isLoginRequest) {
         auth.logout(false);
-        toastr.error('Your session has expired. Please sign in again.', 'Unauthorized');
+        notifications.error(
+          'Your session has expired. Please sign in again.',
+          'Unauthorized',
+        );
         void router.navigate(['/login'], {
           queryParams: { returnUrl: router.url },
         });

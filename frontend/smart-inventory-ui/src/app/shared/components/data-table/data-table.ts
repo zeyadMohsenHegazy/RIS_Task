@@ -2,11 +2,11 @@ import { Component, computed, input } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { TableColumn } from '../../models/table-column.model';
-import { LoadingSpinner } from '../loading-spinner/loading-spinner';
+import { TableSkeleton } from '../table-skeleton/table-skeleton';
 
 @Component({
   selector: 'app-data-table',
-  imports: [MatTableModule, MatSortModule, LoadingSpinner],
+  imports: [MatTableModule, MatSortModule, TableSkeleton],
   templateUrl: './data-table.html',
   styleUrl: './data-table.scss',
 })

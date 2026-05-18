@@ -1,17 +1,13 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
-import { DashboardService } from '../../features/dashboard/dashboard.service';
-import {
-  DashboardStats,
-  LOW_STOCK_THRESHOLD,
-  LowStockProduct,
-} from '../../features/dashboard/models/dashboard.model';
+import { DashboardStore } from '../../features/dashboard/dashboard.store';
+import { LOW_STOCK_THRESHOLD, LowStockProduct } from '../../features/dashboard/models/dashboard.model';
 import {
   DataTable,
   ErrorState,
-  LoadingSpinner,
   StatCard,
+  StatCardsSkeleton,
   TableColumn,
 } from '../../shared';
 
@@ -23,18 +19,17 @@ import {
     StatCard,
     DataTable,
     ErrorState,
-    LoadingSpinner,
+    StatCardsSkeleton,
   ],
   templateUrl: './dashboard.page.html',
   styleUrl: './dashboard.page.scss',
 })
 export class DashboardPage implements OnInit {
-  private readonly dashboardService = inject(DashboardService);
+  private readonly dashboardStore = inject(DashboardStore);
 
-  readonly stats = signal<DashboardStats | null>(null);
-  readonly loading = signal(true);
-  readonly error = signal<string | null>(null);
-
+  readonly stats = this.dashboardStore.stats;
+  readonly loading = this.dashboardStore.loading;
+  readonly error = this.dashboardStore.error;
   readonly lowStockThreshold = LOW_STOCK_THRESHOLD;
 
   readonly statCards = computed(() => {
@@ -85,26 +80,13 @@ export class DashboardPage implements OnInit {
     },
   ];
 
-  readonly lowStockData = computed(() => this.stats()?.lowStockProducts ?? []);
+  readonly lowStockData = this.dashboardStore.lowStockProducts;
 
   ngOnInit(): void {
-    this.loadDashboard();
+    this.dashboardStore.load();
   }
 
   loadDashboard(): void {
-    this.loading.set(true);
-    this.error.set(null);
-
-    this.dashboardService.getStats().subscribe({
-      next: (data) => {
-        this.stats.set(data);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.error.set('Unable to load dashboard data. Please check your connection and try again.');
-        this.loading.set(false);
-        this.stats.set(null);
-      },
-    });
+    this.dashboardStore.load(true);
   }
 }

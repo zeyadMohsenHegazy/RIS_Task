@@ -1,13 +1,13 @@
 import { Component, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { LoadingSpinner } from '../loading-spinner/loading-spinner';
+import { SkeletonBlock } from '../skeleton/skeleton-block';
 
 export type StatCardAccent = 'primary' | 'accent' | 'warn' | 'neutral';
 
 @Component({
   selector: 'app-stat-card',
-  imports: [MatCardModule, MatIconModule, LoadingSpinner],
+  imports: [MatCardModule, MatIconModule, SkeletonBlock],
   templateUrl: './stat-card.html',
   styleUrl: './stat-card.scss',
 })
