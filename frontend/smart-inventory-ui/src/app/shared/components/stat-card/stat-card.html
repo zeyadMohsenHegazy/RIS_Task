@@ -1,0 +1,15 @@
+<mat-card class="stat-card" [class]="'stat-card--' + accent()">
+  <mat-card-content class="stat-card__content">
+    <div class="stat-card__icon-wrap" aria-hidden="true">
+      <mat-icon class="stat-card__icon">{{ icon() }}</mat-icon>
+    </div>
+    <div class="stat-card__body">
+      <span class="stat-card__label">{{ label() }}</span>
+      @if (loading()) {
+        <app-skeleton-block width="55%" height="28px" />
+      } @else {
+        <span class="stat-card__value">{{ value() ?? '—' }}</span>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>

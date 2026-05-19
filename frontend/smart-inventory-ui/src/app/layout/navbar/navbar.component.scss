@@ -1,0 +1,125 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: var(--sim-toolbar-height);
+  background: var(--sim-surface-toolbar) !important;
+  color: inherit;
+  border-bottom: 1px solid var(--sim-border);
+  box-shadow: none;
+  gap: 0.25rem;
+
+  &__menu {
+    margin-right: 0.25rem;
+  }
+
+  &__logo-link {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    text-decoration: none;
+    margin-right: 0.25rem;
+  }
+
+  &__logo {
+    display: block;
+    height: 40px;
+    width: auto;
+    max-width: min(180px, 28vw);
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  &__divider {
+    margin: 0 0.5rem;
+    color: var(--sim-text-muted);
+    font-weight: 300;
+  }
+
+  &__page-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__spacer {
+    flex: 1;
+  }
+
+  &__user-chip {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--mat-sys-primary, #3f51b5) 8%, transparent);
+    border: 1px solid var(--sim-border);
+  }
+
+  &__user-icon {
+    font-size: 1.125rem;
+    width: 1.125rem;
+    height: 1.125rem;
+    color: var(--mat-sys-primary, #3f51b5);
+  }
+
+  &__user-name {
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  &__user-role {
+    font-size: 0.75rem;
+    color: var(--sim-text-muted);
+    padding-left: 0.5rem;
+    border-left: 1px solid var(--sim-border);
+  }
+
+  &__menu-header {
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem 1rem;
+    max-width: 240px;
+    pointer-events: none;
+  }
+
+  &__menu-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__menu-roles {
+    font-size: 0.75rem;
+    color: var(--sim-text-muted);
+    margin-top: 0.125rem;
+  }
+}
+
+@media (min-width: 960px) {
+  .navbar__user-chip {
+    display: flex;
+  }
+}
+
+@media (max-width: 599px) {
+  .navbar__logo {
+    max-width: 120px;
+    height: 32px;
+  }
+
+  .navbar__divider {
+    display: none;
+  }
+
+  .navbar__page-title {
+    font-size: 0.9375rem;
+  }
+}

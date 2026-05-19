@@ -1,0 +1,37 @@
+.data-table {
+  position: relative;
+  border-radius: var(--sim-radius);
+  background: var(--sim-surface-card);
+  border: 1px solid var(--sim-border);
+  box-shadow: var(--sim-shadow);
+  overflow: hidden;
+
+  &__skeleton {
+    padding: 0.25rem 0;
+  }
+
+  &__scroll {
+    overflow-x: auto;
+
+    &--hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+      pointer-events: none;
+    }
+  }
+
+  &__table {
+    width: 100%;
+  }
+
+  &__empty {
+    text-align: center;
+    padding: 2.5rem 1rem !important;
+    color: var(--sim-text-muted);
+  }
+}

@@ -1,0 +1,98 @@
+@use '@angular/material' as mat;
+@use './palette' as palette;
+@use './typography' as typography;
+@use './layout';
+
+@include mat.core();
+
+$sim-light-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: (
+      plain-family: typography.$sim-font-family,
+      brand-family: typography.$sim-font-family,
+    ),
+    density: (
+      scale: 0,
+    ),
+  )
+);
+
+$sim-dark-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: (
+      plain-family: typography.$sim-font-family,
+      brand-family: typography.$sim-font-family,
+    ),
+    density: (
+      scale: 0,
+    ),
+  )
+);
+
+/** Only theme components used in the app (smaller CSS than all-component-themes). */
+@mixin apply-component-themes($theme) {
+  @include mat.button-theme($theme);
+  @include mat.icon-button-theme($theme);
+  @include mat.fab-theme($theme);
+  @include mat.form-field-theme($theme);
+  @include mat.input-theme($theme);
+  @include mat.select-theme($theme);
+  @include mat.table-theme($theme);
+  @include mat.paginator-theme($theme);
+  @include mat.sort-theme($theme);
+  @include mat.card-theme($theme);
+  @include mat.chips-theme($theme);
+  @include mat.dialog-theme($theme);
+  @include mat.sidenav-theme($theme);
+  @include mat.toolbar-theme($theme);
+  @include mat.list-theme($theme);
+  @include mat.menu-theme($theme);
+  @include mat.tooltip-theme($theme);
+  @include mat.progress-spinner-theme($theme);
+  @include mat.divider-theme($theme);
+}
+
+@mixin apply-light-theme {
+  color-scheme: light;
+  background-color: palette.$sim-surface-light;
+  color: palette.$sim-text-on-light;
+  @include apply-component-themes($sim-light-theme);
+}
+
+@mixin apply-dark-theme {
+  color-scheme: dark;
+  background-color: palette.$sim-surface-dark;
+  color: palette.$sim-text-on-dark;
+  @include apply-component-themes($sim-dark-theme);
+}
+
+html {
+  @include typography.sim-typography-base;
+}
+
+html.light-theme,
+html.dark-theme {
+  body,
+  app-root {
+    background-color: var(--sim-page-bg);
+    color: inherit;
+  }
+}
+
+html.light-theme {
+  @include apply-light-theme;
+}
+
+html.dark-theme {
+  @include apply-dark-theme;
+}

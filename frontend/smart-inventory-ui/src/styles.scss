@@ -1,0 +1,19 @@
+@use './app/theme/material-theme';
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background-color: var(--sim-page-bg, #f5f7fa);
+  color: inherit;
+}
+
+.mat-sidenav-container,
+.mat-sidenav-content {
+  background-color: var(--sim-page-bg, #f5f7fa);
+  color: inherit;
+}

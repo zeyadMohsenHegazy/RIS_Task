@@ -1,0 +1,64 @@
+<mat-toolbar class="navbar">
+  @if (showMenuButton()) {
+    <button
+      mat-icon-button
+      type="button"
+      class="navbar__menu"
+      (click)="onMenuClick()"
+      aria-label="Toggle navigation"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+  }
+
+  <a routerLink="/home" class="navbar__logo-link" [attr.aria-label]="brand.logoAlt">
+    <img
+      [src]="brand.logoUrl"
+      [alt]="brand.logoAlt"
+      class="navbar__logo"
+      width="160"
+      height="40"
+    />
+  </a>
+  <span class="navbar__divider" aria-hidden="true">/</span>
+  <h1 class="navbar__page-title">{{ pageTitle() }}</h1>
+
+  <span class="navbar__spacer"></span>
+
+  <button
+    mat-icon-button
+    type="button"
+    (click)="theme.toggle()"
+    [attr.aria-label]="theme.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+  >
+    <mat-icon>{{ theme.isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+  </button>
+
+  @if (auth.currentUser(); as user) {
+    <div class="navbar__user-chip">
+      <mat-icon class="navbar__user-icon">person</mat-icon>
+      <span class="navbar__user-name">{{ user.username }}</span>
+      <span class="navbar__user-role">{{ displayRole() }}</span>
+    </div>
+
+    <button
+      mat-icon-button
+      type="button"
+      class="navbar__user-menu-btn"
+      [matMenuTriggerFor]="profileMenu"
+      aria-label="User profile menu"
+    >
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #profileMenu="matMenu" xPosition="before">
+      <div class="navbar__menu-header">
+        <span class="navbar__menu-name">{{ user.username }}</span>
+        <span class="navbar__menu-roles">{{ displayRole() }}</span>
+      </div>
+      <button mat-menu-item type="button" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Sign out</span>
+      </button>
+    </mat-menu>
+  }
+</mat-toolbar>

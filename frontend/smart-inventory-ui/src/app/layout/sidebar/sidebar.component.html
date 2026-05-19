@@ -1,0 +1,79 @@
+<aside class="sidebar" [class.sidebar--collapsed]="collapsed()">
+  <div class="sidebar__brand">
+    <a
+      routerLink="/home"
+      class="sidebar__logo-link"
+      (click)="onNavClick()"
+      [attr.aria-label]="brand.logoAlt"
+    >
+      <img
+        [src]="brand.logoUrl"
+        [alt]="brand.logoAlt"
+        class="sidebar__logo"
+        width="200"
+        height="48"
+      />
+    </a>
+    <button
+      mat-icon-button
+      type="button"
+      class="sidebar__collapse-btn"
+      (click)="onToggleCollapse()"
+      [attr.aria-label]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
+      [matTooltip]="collapsed() ? 'Expand' : 'Collapse'"
+    >
+      <mat-icon>{{ collapsed() ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+    </button>
+  </div>
+
+  <nav class="sidebar__nav">
+    <mat-nav-list>
+      @for (item of navItems(); track item.route) {
+        <a
+          mat-list-item
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: item.route === '/home' }"
+          (click)="onNavClick()"
+          [matTooltip]="collapsed() ? item.label : ''"
+          matTooltipPosition="right"
+        >
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+          @if (!collapsed()) {
+            <span matListItemTitle>{{ item.label }}</span>
+          }
+        </a>
+      }
+    </mat-nav-list>
+  </nav>
+
+  <div class="sidebar__footer">
+    <mat-divider />
+    @if (auth.currentUser(); as user) {
+      <div class="sidebar__profile">
+        <div class="sidebar__avatar" aria-hidden="true">
+          {{ userInitials(user.username) }}
+        </div>
+        @if (!collapsed()) {
+          <div class="sidebar__profile-info">
+            <span class="sidebar__profile-name">{{ user.username }}</span>
+            <span class="sidebar__profile-role">{{ displayRole() }}</span>
+          </div>
+        }
+      </div>
+    }
+    <button
+      mat-stroked-button
+      class="sidebar__logout"
+      type="button"
+      (click)="logout()"
+      [matTooltip]="collapsed() ? 'Sign out' : ''"
+      matTooltipPosition="right"
+    >
+      <mat-icon>logout</mat-icon>
+      @if (!collapsed()) {
+        <span>Sign out</span>
+      }
+    </button>
+  </div>
+</aside>

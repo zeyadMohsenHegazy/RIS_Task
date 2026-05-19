@@ -1,0 +1,52 @@
+<section class="dashboard page">
+  <app-page-header
+    title="Overview"
+    subtitle="Real-time inventory metrics across your organization"
+  >
+    @if (!loading() && !error()) {
+      <mat-chip-set pageActions aria-label="Low stock threshold">
+        <mat-chip highlighted>Low stock ≤ {{ lowStockThreshold }} units</mat-chip>
+      </mat-chip-set>
+    }
+  </app-page-header>
+
+  @if (error()) {
+    <app-error-state
+      title="Failed to load dashboard"
+      [message]="error()!"
+      (retry)="loadDashboard()"
+    />
+  } @else {
+    @if (loading()) {
+      <app-stat-cards-skeleton [count]="4" />
+    } @else {
+      <div class="dashboard__grid">
+        @for (card of statCards(); track card.label) {
+          <app-stat-card
+            [label]="card.label"
+            [value]="card.value"
+            [icon]="card.icon"
+            [accent]="card.accent"
+          />
+        }
+      </div>
+    }
+
+    <mat-card class="dashboard__panel">
+      <mat-card-header>
+        <mat-card-title>Low stock products</mat-card-title>
+        <mat-card-subtitle>
+          Products at or below {{ lowStockThreshold }} units in stock
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <app-data-table
+          [columns]="lowStockColumns"
+          [data]="lowStockData()"
+          [loading]="loading()"
+          emptyMessage="No low stock products — inventory levels look healthy."
+        />
+      </mat-card-content>
+    </mat-card>
+  }
+</section>

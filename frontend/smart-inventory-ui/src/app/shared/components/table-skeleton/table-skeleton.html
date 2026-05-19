@@ -1,0 +1,19 @@
+<div class="table-skeleton" role="status" aria-label="Loading table data">
+  @if (showHeader()) {
+    <div class="table-skeleton__header">
+      @for (col of columnIndices(); track col) {
+        <app-skeleton-block height="14px" width="70%" />
+      }
+    </div>
+  }
+  @for (row of rowIndices(); track row) {
+    <div class="table-skeleton__row">
+      @for (col of columnIndices(); track col) {
+        <app-skeleton-block
+          [height]="col === 0 ? '18px' : '16px'"
+          [width]="col === 0 ? '85%' : col === columnIndices().length - 1 ? '50%' : '65%'"
+        />
+      }
+    </div>
+  }
+</div>

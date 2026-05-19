@@ -1,0 +1,86 @@
+<h2 mat-dialog-title>{{ dialogTitle() }}</h2>
+
+<mat-dialog-content class="movement-dialog__content">
+  @if (productsLoading()) {
+    <app-form-skeleton [fieldCount]="3" />
+  } @else if (products().length === 0) {
+    <p class="movement-dialog__empty">No products available. Create a product first.</p>
+  } @else {
+    <form [formGroup]="form" class="movement-dialog__form">
+      <mat-form-field appearance="outline" class="movement-dialog__field">
+        <mat-label>Product</mat-label>
+        <mat-select formControlName="productId">
+          @for (product of products(); track product.id) {
+            <mat-option [value]="product.id">
+              {{ product.name }} ({{ product.sku }}) — Qty: {{ product.quantity }}
+            </mat-option>
+          }
+        </mat-select>
+        @if (productId.hasError('required') && productId.touched) {
+          <mat-error>Product is required</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="movement-dialog__field">
+        <mat-label>Transaction type</mat-label>
+        <mat-select formControlName="transactionType">
+          @for (option of typeOptions; track option.value) {
+            <mat-option [value]="option.value">{{ option.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      @if (selectedProduct(); as product) {
+        <p class="movement-dialog__stock-hint">
+          Available stock:
+          <strong>{{ product.quantity }}</strong>
+          @if (transactionTypeControl.value === transactionType.Out) {
+            <span> — Stock out cannot exceed available quantity</span>
+          }
+        </p>
+      }
+
+      <mat-form-field appearance="outline" class="movement-dialog__field">
+        <mat-label>Quantity</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="quantity"
+          min="1"
+          [max]="
+            transactionTypeControl.value === transactionType.Out && selectedProduct()
+              ? selectedProduct()!.quantity
+              : null
+          "
+          step="1"
+        />
+        @if (quantity.hasError('required') && quantity.touched) {
+          <mat-error>Quantity is required</mat-error>
+        }
+        @if (quantity.hasError('min') && quantity.touched) {
+          <mat-error>Quantity must be at least 1</mat-error>
+        }
+        @if (quantity.hasError('insufficientStock') && quantity.touched) {
+          <mat-error>
+            Cannot remove more than
+            {{ quantity.getError('insufficientStock').available }} units in stock
+          </mat-error>
+        }
+      </mat-form-field>
+    </form>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()" [disabled]="submitting()">Cancel</button>
+  <app-loading-button
+    [color]="transactionTypeControl.value === transactionType.Out ? 'warn' : 'primary'"
+    type="button"
+    [loading]="submitting()"
+    loadingLabel="Processing..."
+    [disabled]="productsLoading() || products().length === 0"
+    (click)="onSubmit()"
+  >
+    Confirm {{ dialogTitle() }}
+  </app-loading-button>
+</mat-dialog-actions>

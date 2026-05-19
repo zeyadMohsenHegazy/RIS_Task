@@ -1,0 +1,19 @@
+<div class="paginated-table-shell">
+  @if (loading()) {
+    <app-table-skeleton [columns]="columnCount()" [rows]="skeletonRows()" />
+  }
+
+  <div class="paginated-table-shell__content" [class.paginated-table-shell__content--hidden]="loading()">
+    <ng-content />
+  </div>
+
+  <mat-paginator
+    [length]="totalCount()"
+    [pageIndex]="pageIndex()"
+    [pageSize]="pageSize()"
+    [pageSizeOptions]="pageSizeOptions()"
+    [showFirstLastButtons]="true"
+    [attr.aria-label]="paginatorLabel()"
+    (page)="onPageChange($event)"
+  />
+</div>
