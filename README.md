@@ -9,7 +9,6 @@ RIS_Task/
 ├── backend/              .NET 8 API (Smart Inventory)
 ├── frontend/             Angular web client
 ├── POSDesktopSystem/     WinForms POS desktop app
-├── Database/             SQL scripts (add your scripts here)
 ├── scripts/              start-all.ps1, stop-all.ps1
 ├── docker-compose.yml    Full stack (SQL Server + API + Web UI + POS DB)
 └── README.md
