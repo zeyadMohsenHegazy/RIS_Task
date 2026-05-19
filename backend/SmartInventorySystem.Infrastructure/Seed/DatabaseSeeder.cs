@@ -23,6 +23,8 @@ public class DatabaseSeeder : IDatabaseSeeder
 
     public async Task SeedAsync(CancellationToken cancellationToken = default)
     {
+        SeedData.EnsureValid();
+
         if (await IsSeedCompleteAsync(cancellationToken))
         {
             _logger.LogInformation("Database seed skipped — sample data already exists.");

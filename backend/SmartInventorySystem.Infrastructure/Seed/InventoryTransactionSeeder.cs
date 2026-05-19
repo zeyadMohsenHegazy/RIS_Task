@@ -24,10 +24,7 @@ internal static class InventoryTransactionSeeder
         for (var i = 0; i < SeedData.InventoryTransactions.Count; i++)
         {
             var seed = SeedData.InventoryTransactions[i];
-            var userKey = seed.UserKey.Equals("Admin", StringComparison.OrdinalIgnoreCase)
-                ? SeedData.AdminUsername
-                : SeedData.EmployeeUsername;
-            var user = users[userKey];
+            var user = users[SeedData.ResolveUsername(seed.UserKey)];
             var type = seed.IsStockIn ? TransactionType.In : TransactionType.Out;
 
             transactions.Add(new InventoryTransaction(

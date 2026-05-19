@@ -1,4 +1,3 @@
--- Seed default POS users (passwords are SHA256 hashed)
 -- cashier / cashier123
 -- manager / manager123
 
