@@ -17,3 +17,23 @@ C:\Users\Lenovo\Desktop\Smart Inventory Management System\POSDesktopSystem\src\P
 C:\Users\Lenovo\Desktop\Smart Inventory Management System\POSDesktopSystem\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.pdb
 C:\Users\Lenovo\Desktop\Smart Inventory Management System\POSDesktopSystem\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.genruntimeconfig.cache
 C:\Users\Lenovo\Desktop\Smart Inventory Management System\POSDesktopSystem\src\POS.Infrastructure\obj\Debug\net8.0\ref\POS.Infrastructure.dll
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\bin\Debug\net8.0\POS.Infrastructure.deps.json
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\bin\Debug\net8.0\POS.Infrastructure.runtimeconfig.json
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\bin\Debug\net8.0\POS.Infrastructure.dll
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\bin\Debug\net8.0\POS.Infrastructure.pdb
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\bin\Debug\net8.0\POS.Application.dll
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\bin\Debug\net8.0\POS.Domain.dll
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\bin\Debug\net8.0\POS.Domain.pdb
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\bin\Debug\net8.0\POS.Application.pdb
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.AssemblyInfo.cs
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.sourcelink.json
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infr.1F9324E1.Up2Date
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.dll
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\obj\Debug\net8.0\refint\POS.Infrastructure.dll
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.pdb
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\obj\Debug\net8.0\POS.Infrastructure.genruntimeconfig.cache
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Infrastructure\obj\Debug\net8.0\ref\POS.Infrastructure.dll

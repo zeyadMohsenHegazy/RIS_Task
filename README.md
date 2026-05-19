@@ -10,21 +10,48 @@ RIS_Task/
 ├── frontend/             Angular web client
 ├── POSDesktopSystem/     WinForms POS desktop app
 ├── Database/             SQL scripts (add your scripts here)
-├── docker-compose.yml    Full stack (SQL Server + API + UI)
+├── scripts/              start-all.ps1, stop-all.ps1
+├── docker-compose.yml    Full stack (SQL Server + API + Web UI + POS DB)
 └── README.md
 ```
 
-## Quick start — full stack (Docker)
+## Quick start — run everything
+
+**One command** starts Docker (SQL Server, API, Web UI, POS database) and opens the POS desktop app:
+
+```powershell
+.\scripts\start-all.ps1
+```
+
+Or double-click `start-all.bat`.
+
+| Project | How it runs | URL / access |
+|---------|-------------|--------------|
+| Web UI | Docker | http://localhost:8081 |
+| API | Docker | http://localhost:8080 |
+| SQL Server | Docker | localhost:1433 |
+| POS Desktop | Windows (WinForms) | Opens automatically |
+
+**Stop Docker services:**
+
+```powershell
+.\scripts\stop-all.ps1
+```
+
+Close the POS desktop window manually when done.
+
+### Docker only (no desktop app)
 
 ```bash
 docker compose up --build -d
 ```
 
-| Service   | URL                        |
-|-----------|----------------------------|
-| Front-end | http://localhost:8081      |
-| API       | http://localhost:8080      |
-| SQL Server| localhost:1433             |
+This starts SQL Server, API, Web UI, and runs POS database migrations. Launch the desktop app separately:
+
+```powershell
+$env:DOTNET_ENVIRONMENT = "Docker"
+dotnet run --project POSDesktopSystem/src/POS.UI/POS.UI.csproj
+```
 
 ## Individual projects
 
@@ -51,10 +78,19 @@ See [frontend/README.md](./frontend/README.md) and [frontend/smart-inventory-ui/
 
 ### POS Desktop System
 
-Open `POSDesktopSystem/POSDesktopSystem.sln` in Visual Studio.
+Open `POSDesktopSystem/POSDesktopSystem.sln` in Visual Studio, or use `start-all.ps1`.
 
 See [POSDesktopSystem/README.md](./POSDesktopSystem/README.md).
 
 ## Database
 
-Place SQL scripts in the `Database/` folder.
+One SQL Server container hosts both databases:
+
+- `SmartInventoryDb` — web inventory API
+- `POSDesktopSystem` — POS desktop app
+
+Place additional SQL scripts in the `Database/` folder.
+
+## Configuration
+
+Copy `.env.example` to `.env` to override defaults (password, ports, etc.).

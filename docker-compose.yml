@@ -1,9 +1,11 @@
-# Full stack: SQL Server + API + Angular UI
+# Full stack: SQL Server + API + Angular UI + POS database
 #
 #   docker compose up --build -d
+#   .\scripts\start-all.ps1          # starts Docker + POS desktop app
 #
-# UI:  http://localhost:8081
-# API: http://localhost:8080
+# Web UI:  http://localhost:8081
+# API:     http://localhost:8080
+# POS:     WinForms desktop (launched via start-all.ps1)
 
 services:
   sqlserver:
@@ -64,6 +66,21 @@ services:
     depends_on:
       - api
     restart: unless-stopped
+
+  pos-db-init:
+    build:
+      context: ./POSDesktopSystem
+      dockerfile: docker/Dockerfile.migrate
+    container_name: pos-db-init
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=POSDesktopSystem;User Id=sa;Password=${MSSQL_SA_PASSWORD:-RIS_2026};TrustServerCertificate=True;Encrypt=False;"
+      Database__Provider: "SqlServer"
+      Database__AutoMigrate: "true"
+      Database__SeedDefaultUsers: "true"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    restart: "no"
 
 volumes:
   sqldata:

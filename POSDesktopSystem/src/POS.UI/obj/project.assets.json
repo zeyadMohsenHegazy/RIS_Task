@@ -3834,11 +3834,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.UI\\POS.UI.csproj",
+      "projectUniqueName": "C:\\Users\\Lenovo\\Desktop\\RIS_Task\\POSDesktopSystem\\src\\POS.UI\\POS.UI.csproj",
       "projectName": "POS.UI",
-      "projectPath": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.UI\\POS.UI.csproj",
+      "projectPath": "C:\\Users\\Lenovo\\Desktop\\RIS_Task\\POSDesktopSystem\\src\\POS.UI\\POS.UI.csproj",
       "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.UI\\obj\\",
+      "outputPath": "C:\\Users\\Lenovo\\Desktop\\RIS_Task\\POSDesktopSystem\\src\\POS.UI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3859,11 +3859,11 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "projectReferences": {
-            "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Application\\POS.Application.csproj": {
-              "projectPath": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Application\\POS.Application.csproj"
+            "C:\\Users\\Lenovo\\Desktop\\RIS_Task\\POSDesktopSystem\\src\\POS.Application\\POS.Application.csproj": {
+              "projectPath": "C:\\Users\\Lenovo\\Desktop\\RIS_Task\\POSDesktopSystem\\src\\POS.Application\\POS.Application.csproj"
             },
-            "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Infrastructure\\POS.Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.Infrastructure\\POS.Infrastructure.csproj"
+            "C:\\Users\\Lenovo\\Desktop\\RIS_Task\\POSDesktopSystem\\src\\POS.Infrastructure\\POS.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\Lenovo\\Desktop\\RIS_Task\\POSDesktopSystem\\src\\POS.Infrastructure\\POS.Infrastructure.csproj"
             }
           }
         }

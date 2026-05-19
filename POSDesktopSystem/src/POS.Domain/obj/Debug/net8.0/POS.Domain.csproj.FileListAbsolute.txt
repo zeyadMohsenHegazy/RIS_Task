@@ -9,3 +9,15 @@ C:\Users\Lenovo\Desktop\Smart Inventory Management System\POSDesktopSystem\src\P
 C:\Users\Lenovo\Desktop\Smart Inventory Management System\POSDesktopSystem\src\POS.Domain\obj\Debug\net8.0\refint\POS.Domain.dll
 C:\Users\Lenovo\Desktop\Smart Inventory Management System\POSDesktopSystem\src\POS.Domain\obj\Debug\net8.0\POS.Domain.pdb
 C:\Users\Lenovo\Desktop\Smart Inventory Management System\POSDesktopSystem\src\POS.Domain\obj\Debug\net8.0\ref\POS.Domain.dll
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Domain\bin\Debug\net8.0\POS.Domain.deps.json
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Domain\bin\Debug\net8.0\POS.Domain.dll
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Domain\bin\Debug\net8.0\POS.Domain.pdb
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Domain\obj\Debug\net8.0\POS.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Domain\obj\Debug\net8.0\POS.Domain.AssemblyInfoInputs.cache
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Domain\obj\Debug\net8.0\POS.Domain.AssemblyInfo.cs
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Domain\obj\Debug\net8.0\POS.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Domain\obj\Debug\net8.0\POS.Domain.sourcelink.json
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Domain\obj\Debug\net8.0\POS.Domain.dll
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Domain\obj\Debug\net8.0\refint\POS.Domain.dll
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Domain\obj\Debug\net8.0\POS.Domain.pdb
+C:\Users\Lenovo\Desktop\RIS_Task\POSDesktopSystem\src\POS.Domain\obj\Debug\net8.0\ref\POS.Domain.dll

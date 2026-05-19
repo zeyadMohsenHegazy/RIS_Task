@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "oVBKhheZAm4=",
+  "dgSpecHash": "bP1OzYOeuVI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Lenovo\\Desktop\\Smart Inventory Management System\\POSDesktopSystem\\src\\POS.UI\\POS.UI.csproj",
+  "projectFilePath": "C:\\Users\\Lenovo\\Desktop\\RIS_Task\\POSDesktopSystem\\src\\POS.UI\\POS.UI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lenovo\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
