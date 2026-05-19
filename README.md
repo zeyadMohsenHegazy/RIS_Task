@@ -12,7 +12,7 @@ Smart Inventory System
 -- admin / Admin@123
 -- employee / Employee@123
 
-This users are seeded in the database 
+These users are seeded in the database 
 ```
 ## Structure
 
