@@ -2,7 +2,7 @@
 
 `Monorepo` containing the full Smart Inventory Management System and POS Desktop application.
 
-##Users 
+## Users 
 
 ```
 POS Window Application
