@@ -100,6 +100,11 @@ export class ProductFormPage implements OnInit {
         return;
       }
 
+      // Store starts idle (not loading, empty data). Wait until a fetch finishes.
+      if (!this.warehousesStore.isLoaded() && !this.warehousesStore.error()) {
+        return;
+      }
+
       const warehouseError = this.warehousesStore.error();
       if (warehouseError) {
         this.loadError.set(warehouseError);
@@ -111,6 +116,8 @@ export class ProductFormPage implements OnInit {
         this.loadError.set('No warehouses available. Create a warehouse before adding products.');
         return;
       }
+
+      this.loadError.set(null);
 
       const patch = this.pendingPatch();
       if (patch) {
