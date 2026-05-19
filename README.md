@@ -1,6 +1,6 @@
 # RIS Task — Smart Inventory & POS System
 
-Monorepo containing the full Smart Inventory Management System and POS Desktop application.
+`Monorepo` containing the full Smart Inventory Management System and POS Desktop application.
 
 ## Structure
 
@@ -74,7 +74,7 @@ npm start
 
 Open http://localhost:4200 (requires the API running).
 
-See [frontend/README.md](./frontend/README.md) and [frontend/smart-inventory-ui/README.md](./frontend/smart-inventory-ui/README.md).
+See [frontend/README.md](./frontend/README.md) and the [Angular client README](./frontend/smart-inventory-ui/README.md).
 
 ### POS Desktop System
 
