@@ -1,0 +1,25 @@
+# Monorepo
+_git_merge/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.user
+*.suo
+
+# Environment
+.env
+.env.local
+
+# Node / Angular (frontend)
+frontend/smart-inventory-ui/node_modules/
+frontend/smart-inventory-ui/dist/
+frontend/smart-inventory-ui/.angular/
+
+# .NET build output
+**/bin/
+**/obj/

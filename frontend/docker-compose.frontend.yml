@@ -1,6 +1,10 @@
-# Merge with the API stack from the repo root or Back-End folder:
+# Optional: use root docker-compose.yml instead:
 #
-#   docker compose -f Back-End/docker-compose.yml -f Front-End/docker-compose.frontend.yml up --build -d
+#   docker compose up --build -d
+#
+# Or merge with backend stack only:
+#
+#   docker compose -f backend/docker-compose.yml -f frontend/docker-compose.frontend.yml up --build -d
 #
 # UI:  http://localhost:8081
 # API: http://localhost:8080
@@ -9,7 +13,7 @@ services:
   frontend:
     build:
       # Resolved from Back-End/ when using: docker compose -f Back-End/... -f Front-End/...
-      context: ../Front-End/smart-inventory-ui
+      context: ./smart-inventory-ui
       dockerfile: Dockerfile
     container_name: smartinventory-frontend
     ports:
