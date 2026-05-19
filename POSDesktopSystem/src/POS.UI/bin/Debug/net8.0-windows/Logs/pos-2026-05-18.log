@@ -1,0 +1,17 @@
+[2026-05-18 22:48:51] [INFO] POS Desktop System started.
+[2026-05-18 22:49:51] [INFO] POS Desktop System started.
+[2026-05-18 22:49:59] [ACTION] Login attempt failed | Username=cashier; Reason=Invalid credentials
+[2026-05-18 22:50:57] [INFO] POS Desktop System started.
+[2026-05-18 22:51:03] [ACTION] Login successful | Username=cashier; Role=Cashier; UserId=1
+[2026-05-18 22:51:25] [ACTION] Logout | Username=cashier
+[2026-05-18 22:51:32] [ACTION] Login attempt failed | Username=manager; Reason=Invalid credentials
+[2026-05-18 22:51:36] [ACTION] Login attempt failed | Username=manger; Reason=Invalid credentials
+[2026-05-18 22:51:47] [ACTION] Login successful | Username=manager; Role=Manager; UserId=2
+[2026-05-18 22:51:55] [ACTION] Logout | Username=manager
+[2026-05-18 22:55:24] [INFO] POS Desktop System started.
+[2026-05-18 22:55:35] [ACTION] Login successful | Username=manager; Role=Manager; UserId=2
+[2026-05-18 22:56:24] [ACTION] Invoice created | InvoiceId=1; UserId=2; Username=manager; Items=1; Subtotal=$1,200.00; Discount=$10.00; Tax=$10.00; Final=$1,200.00; Payment=Card
+[2026-05-18 22:57:45] [INFO] POS Desktop System started.
+[2026-05-18 22:57:54] [ACTION] Login successful | Username=manager; Role=Manager; UserId=2
+[2026-05-18 22:58:01] [ACTION] Invoice created | InvoiceId=2; UserId=2; Username=manager; Items=1; Subtotal=$1,200.00; Discount=$0.00; Tax=$0.00; Final=$1,200.00; Payment=Cash
+[2026-05-18 22:58:44] [ACTION] Logout | Username=manager

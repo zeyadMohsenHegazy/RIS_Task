@@ -1,0 +1,18 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+COPY POSDesktopSystem.sln ./
+COPY src/POS.Domain/POS.Domain.csproj src/POS.Domain/
+COPY src/POS.Application/POS.Application.csproj src/POS.Application/
+COPY src/POS.Infrastructure/POS.Infrastructure.csproj src/POS.Infrastructure/
+COPY src/POS.DbMigrator/POS.DbMigrator.csproj src/POS.DbMigrator/
+
+RUN dotnet restore src/POS.DbMigrator/POS.DbMigrator.csproj
+
+COPY src/ ./src/
+RUN dotnet publish src/POS.DbMigrator/POS.DbMigrator.csproj -c Release -o /app/publish /p:UseAppHost=false
+
+FROM mcr.microsoft.com/dotnet/runtime:8.0 AS final
+WORKDIR /app
+COPY --from=build /app/publish .
+ENTRYPOINT ["dotnet", "POS.DbMigrator.dll"]
