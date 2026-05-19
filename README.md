@@ -1,7 +1,19 @@
 # RIS Task — Smart Inventory & POS System
 
 `Monorepo` containing the full Smart Inventory Management System and POS Desktop application.
+##Users 
+```
+POS Window Application
+-- cashier / cashier123
+-- manager / manager123
 
+
+Smart Inventory System
+-- admin / Admin@123
+-- employee / Employee@123
+
+This users are seeded in the database 
+```
 ## Structure
 
 ```
