@@ -1,0 +1,82 @@
+<section class="user-form-page page">
+  <app-page-header
+    [title]="pageTitle()"
+    [subtitle]="isEditMode() ? 'Update account details and role' : 'Create a new system account'"
+  >
+    <a pageActions mat-button routerLink="/users">
+      <mat-icon>arrow_back</mat-icon>
+      Back to users
+    </a>
+  </app-page-header>
+
+  @if (loadError()) {
+    <app-error-state
+      [title]="isEditMode() ? 'Unable to load user' : 'Unable to load form'"
+      [message]="loadError()!"
+      (retry)="retryLoad()"
+    />
+  } @else if (userLoading()) {
+    <app-form-skeleton [fieldCount]="3" />
+  } @else {
+    <mat-card class="user-form-card">
+      <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="user-form">
+          <div class="user-form__grid">
+            <mat-form-field appearance="outline" class="user-form__field user-form__field--full">
+              <mat-label>Username</mat-label>
+              <input matInput formControlName="username" autocomplete="off" />
+              @if (username.hasError('required') && username.touched) {
+                <mat-error>Username is required</mat-error>
+              }
+              @if (username.hasError('maxlength') && username.touched) {
+                <mat-error>Username must be at most 100 characters</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="user-form__field">
+              <mat-label>Role</mat-label>
+              <mat-select formControlName="role">
+                @for (roleOption of roles; track roleOption) {
+                  <mat-option [value]="roleOption">{{ roleOption }}</mat-option>
+                }
+              </mat-select>
+              @if (role.hasError('required') && role.touched) {
+                <mat-error>Role is required</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="user-form__field">
+              <mat-label>{{ isEditMode() ? 'New password (optional)' : 'Password' }}</mat-label>
+              <input
+                matInput
+                type="password"
+                formControlName="password"
+                [autocomplete]="isEditMode() ? 'new-password' : 'new-password'"
+              />
+              @if (password.hasError('required') && password.touched) {
+                <mat-error>Password is required</mat-error>
+              }
+              @if (password.hasError('minlength') && password.touched) {
+                <mat-error>Password must be at least 6 characters</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="user-form__actions">
+            <a mat-button type="button" routerLink="/users" [disabled]="submitting()">
+              Cancel
+            </a>
+            <app-loading-button
+              type="submit"
+              color="primary"
+              [loading]="submitting()"
+              [loadingLabel]="isEditMode() ? 'Saving...' : 'Creating...'"
+            >
+              {{ isEditMode() ? 'Save changes' : 'Create user' }}
+            </app-loading-button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  }
+</section>

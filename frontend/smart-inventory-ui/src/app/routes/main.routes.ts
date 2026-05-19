@@ -52,4 +52,25 @@ export const MAIN_ROUTES: Routes = [
       ),
     data: { title: 'Warehouses' },
   },
+  {
+    path: 'users',
+    canActivate: [adminGuard],
+    loadComponent: () =>
+      import('../pages/users-list/users-list.page').then((m) => m.UsersListPage),
+    data: { title: 'Users' },
+  },
+  {
+    path: 'users/new',
+    canActivate: [adminGuard],
+    loadComponent: () =>
+      import('../pages/user-form/user-form.page').then((m) => m.UserFormPage),
+    data: { title: 'Add user' },
+  },
+  {
+    path: 'users/:id/edit',
+    canActivate: [adminGuard],
+    loadComponent: () =>
+      import('../pages/user-form/user-form.page').then((m) => m.UserFormPage),
+    data: { title: 'Edit user' },
+  },
 ];

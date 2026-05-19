@@ -13,6 +13,8 @@ export const ADMIN_NAV_ITEMS: NavItem[] = [
   { label: 'Add Product', icon: 'add_box', route: '/products/new', roles: ['Admin'] },
   { label: 'Inventory History', icon: 'history', route: '/inventory/history' },
   { label: 'Warehouses', icon: 'warehouse', route: '/warehouses', roles: ['Admin'] },
+  { label: 'Users', icon: 'group', route: '/users', roles: ['Admin'] },
+  { label: 'Add User', icon: 'person_add', route: '/users/new', roles: ['Admin'] },
 ];
 
 export const EMPLOYEE_NAV_ITEMS: NavItem[] = [

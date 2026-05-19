@@ -1,0 +1,62 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 960px;
+  margin: 0 auto;
+
+  &__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+.users-table {
+  width: 100%;
+
+  &__empty {
+    text-align: center;
+    padding: 2.5rem 1rem !important;
+    color: var(--sim-text-muted);
+  }
+
+  &__you-badge {
+    display: inline-block;
+    margin-left: 0.5rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: color-mix(in srgb, var(--sim-primary) 15%, transparent);
+    color: var(--sim-primary);
+  }
+}
+
+.actions-header,
+.actions-cell {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 0.125rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  background: color-mix(in srgb, currentColor 8%, transparent);
+
+  &--admin {
+    background: color-mix(in srgb, var(--sim-primary) 15%, transparent);
+    color: var(--sim-primary);
+  }
+}
+
+@media (max-width: 768px) {
+  app-search-field {
+    width: 100%;
+    max-width: none;
+  }
+}

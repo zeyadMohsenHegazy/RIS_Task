@@ -11,7 +11,7 @@ export interface LoginResponse {
 }
 
 export interface AuthUser {
-  id: string;
+  id: number;
   username: string;
   email: string;
   roles: string[];

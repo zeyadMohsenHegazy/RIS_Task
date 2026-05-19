@@ -20,6 +20,8 @@ const ROLE_CLAIM =
   'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
 const NAME_CLAIM =
   'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name';
+const NAME_IDENTIFIER_CLAIM =
+  'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -104,11 +106,12 @@ export class AuthService {
         'User',
     );
     const email = String(payload.email ?? username);
+    const userId = this.extractUserId(payload);
 
     localStorage.setItem(TOKEN_STORAGE_KEY, accessToken);
     this.token.set(accessToken);
     this.user.set({
-      id: payload.sub ?? username,
+      id: userId,
       username,
       email,
       roles,
@@ -154,6 +157,20 @@ export class AuthService {
   private extractToken(response: LoginResponse & { Token?: string }): string | null {
     const token = response.token ?? response.Token;
     return typeof token === 'string' && token.length > 0 ? token : null;
+  }
+
+  private extractUserId(payload: JwtPayload): number {
+    const raw =
+      payload[NAME_IDENTIFIER_CLAIM] ??
+      payload.sub ??
+      payload['nameid'];
+
+    const parsed = Number(raw);
+    if (!Number.isNaN(parsed) && parsed > 0) {
+      return parsed;
+    }
+
+    return 0;
   }
 
   private isTokenExpired(accessToken: string): boolean {

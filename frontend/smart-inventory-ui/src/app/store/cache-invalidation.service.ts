@@ -9,6 +9,7 @@ export class CacheInvalidationService {
   readonly warehousesVersion = signal(0);
   readonly dashboardVersion = signal(0);
   readonly inventoryVersion = signal(0);
+  readonly usersVersion = signal(0);
 
   /** Product catalog changed (create/update/delete). Lists refresh; dashboard waits until opened. */
   invalidateProductCatalog(): void {
@@ -38,5 +39,9 @@ export class CacheInvalidationService {
     this.inventoryVersion.update((v) => v + 1);
     this.invalidateProductCatalog();
     this.invalidateDashboardMetrics();
+  }
+
+  invalidateUsers(): void {
+    this.usersVersion.update((v) => v + 1);
   }
 }
